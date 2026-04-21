@@ -3,13 +3,14 @@
 namespace DevWizard\Payify\Http\Controllers;
 
 use DevWizard\Payify\Managers\PayifyManager;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class CallbackController
 {
-    public function __invoke(Request $request, string $provider, ?string $result, PayifyManager $manager): Response|RedirectResponse
+    public function __invoke(Request $request, string $provider, ?string $result, PayifyManager $manager): Response|JsonResponse|RedirectResponse
     {
         $driver = $manager->provider($provider);
         $response = $driver->handleCallback($request);

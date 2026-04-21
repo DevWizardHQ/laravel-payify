@@ -2,6 +2,8 @@
 
 namespace DevWizard\Payify\Tests;
 
+use DevWizard\Payify\Http\PayifyHttpClient;
+use DevWizard\Payify\Managers\PayifyManager;
 use DevWizard\Payify\PayifyServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
@@ -37,12 +39,23 @@ class TestCase extends Orchestra
         $migration = include __DIR__.'/../database/migrations/create_payify_transactions_table.php.stub';
         $migration->up();
 
-        $app->singleton(\DevWizard\Payify\Http\PayifyHttpClient::class, function ($app) {
+        $app->singleton(PayifyHttpClient::class, function ($app) {
             $config = config('payify.http', ['timeout' => 1, 'retries' => 0, 'retry_delay' => 1, 'mask_keys' => [], 'log_requests' => false]);
-            return new \DevWizard\Payify\Http\PayifyHttpClient($config, $app['log']->getLogger());
+
+            return new PayifyHttpClient($config, $app['log']->getLogger());
         });
-        $app->singleton(\DevWizard\Payify\Managers\PayifyManager::class, function ($app) {
-            return new \DevWizard\Payify\Managers\PayifyManager($app);
+        $app->singleton(PayifyManager::class, function ($app) {
+            return new PayifyManager($app);
+        });
+    }
+
+    protected function defineRoutes($router): void
+    {
+        $router->group([
+            'prefix' => 'payify',
+            'middleware' => config('payify.routes.middleware', []),
+        ], function ($router) {
+            require __DIR__.'/../routes/payify.php';
         });
     }
 }
