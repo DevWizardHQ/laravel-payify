@@ -2,6 +2,13 @@
 
 namespace DevWizard\Payify;
 
+use DevWizard\Payify\Commands\CleanupCommand;
+use DevWizard\Payify\Commands\InstallCommand;
+use DevWizard\Payify\Commands\ListProvidersCommand;
+use DevWizard\Payify\Commands\MakeDriverCommand;
+use DevWizard\Payify\Commands\RefundCommand;
+use DevWizard\Payify\Commands\StatusCommand;
+use DevWizard\Payify\Commands\WebhookReplayCommand;
 use DevWizard\Payify\Http\PayifyHttpClient;
 use DevWizard\Payify\Managers\PayifyManager;
 use Illuminate\Support\Facades\Route;
@@ -15,7 +22,16 @@ class PayifyServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-payify')
             ->hasConfigFile('payify')
-            ->hasMigration('create_payify_transactions_table');
+            ->hasMigration('create_payify_transactions_table')
+            ->hasCommands([
+                InstallCommand::class,
+                MakeDriverCommand::class,
+                ListProvidersCommand::class,
+                StatusCommand::class,
+                RefundCommand::class,
+                WebhookReplayCommand::class,
+                CleanupCommand::class,
+            ]);
     }
 
     public function packageRegistered(): void
