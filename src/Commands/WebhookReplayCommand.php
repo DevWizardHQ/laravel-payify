@@ -37,7 +37,7 @@ class WebhookReplayCommand extends Command
             amount: isset($raw['amount']) ? (float) $raw['amount'] : (float) $txn->amount,
             currency: $raw['currency'] ?? $txn->currency,
             raw: $raw,
-            verified: true,
+            verified: $txn->webhook_verified_at !== null,
         );
 
         event(new WebhookReceived($payload, $txn));

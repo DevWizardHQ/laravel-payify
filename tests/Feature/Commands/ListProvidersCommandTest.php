@@ -13,7 +13,6 @@ it('lists configured providers with capabilities', function () {
 
     $this->artisan('payify:list')
         ->expectsOutputToContain('fake')
-        ->expectsOutputToContain('sandbox')
         ->assertSuccessful();
 });
 

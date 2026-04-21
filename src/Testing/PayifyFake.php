@@ -21,18 +21,11 @@ class PayifyFake
         $canned = is_string($providers) ? [$providers => []] : $providers;
         $fake = new self($canned);
 
-        app()->singleton('payify', function ($app) use ($fake) {
+        app()->extend('payify', function ($manager, $app) use ($fake) {
             return new FakePayifyManager($app, $fake);
         });
 
-        // Force Laravel to re-resolve the singleton next time it is requested
-        app()->forgetInstance('payify');
-
-        // Clear the Facade's own resolved-instance cache so subsequent
-        // Payify::driver() calls use the new FakePayifyManager.
         \DevWizard\Payify\Facades\Payify::clearResolvedInstance('payify');
-
-        app()->alias('payify', PayifyManager::class);
 
         return $fake;
     }

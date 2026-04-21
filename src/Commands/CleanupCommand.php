@@ -45,7 +45,7 @@ class CleanupCommand extends Command
             return self::SUCCESS;
         }
 
-        $query->get()->each->delete();
+        $query->chunkById(200, fn ($rows) => $rows->each->delete());
 
         $this->info("Deleted {$count} {$status->value} transactions older than {$days} days.");
 

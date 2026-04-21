@@ -30,7 +30,7 @@ class StatusCommand extends Command
         $this->line("Transaction: {$txn->id}");
         $this->line("  Provider: {$txn->provider}");
         $this->line("  Before:   {$before}");
-        $this->line("  After:    {$txn->fresh()->status->value}");
+        $this->line("  After:    {$response->status->value}");
         $this->line("  Provider txn: ".($response->providerTransactionId ?? '(none)'));
 
         return self::SUCCESS;

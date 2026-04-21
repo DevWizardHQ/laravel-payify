@@ -22,7 +22,11 @@ it('installs PayifyFake via facade', function () {
 });
 
 it('records pay() invocations for assertion', function () {
-    $fake = Payify::fake();
+    $fake = Payify::fake([
+        'fake' => [
+            'pay' => ['status' => 'succeeded'],
+        ],
+    ]);
 
     Payify::driver('fake')
         ->amount(250, 'BDT')

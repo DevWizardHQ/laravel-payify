@@ -45,12 +45,6 @@ class ListProvidersCommand extends Command
             $rows[] = [$key, $class, $mode, $caps, $credsOk];
         }
 
-        foreach ($rows as $row) {
-            $this->comment("Provider: {$row[0]}");
-            $this->line("  Mode: {$row[2]}");
-            $this->line("  Capabilities: {$row[3]}");
-        }
-        $this->newLine();
         $this->table(['Provider', 'Class', 'Mode', 'Capabilities', 'Resolves'], $rows);
 
         return self::SUCCESS;

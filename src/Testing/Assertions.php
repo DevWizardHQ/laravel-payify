@@ -2,6 +2,7 @@
 
 namespace DevWizard\Payify\Testing;
 
+use DevWizard\Payify\Enums\TransactionStatus;
 use DevWizard\Payify\Models\Transaction;
 use PHPUnit\Framework\Assert as PHPUnit;
 
@@ -69,8 +70,8 @@ trait Assertions
     /** @return array<int, Transaction> */
     private function paidTransactions(?callable $filter = null): array
     {
-        $query = Transaction::query();
-        return $query->get()
+        return Transaction::where('status', TransactionStatus::Succeeded->value)
+            ->get()
             ->filter(fn (Transaction $t) => $filter === null || $filter($t))
             ->values()
             ->all();
