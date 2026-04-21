@@ -2,6 +2,7 @@
 
 namespace DevWizard\Payify\Managers;
 
+use DevWizard\Payify\Builders\PaymentBuilder;
 use DevWizard\Payify\Contracts\PaymentProvider;
 use DevWizard\Payify\Exceptions\ProviderNotFoundException;
 use Illuminate\Support\Manager;
@@ -43,6 +44,7 @@ class PayifyManager extends Manager
     protected function callCustomCreator($driver)
     {
         $config = $this->providerConfig($driver);
+
         return $this->customCreators[$driver]($this->container, $config);
     }
 
@@ -72,9 +74,9 @@ class PayifyManager extends Manager
         return $config;
     }
 
-    public function driver($driver = null): mixed
+    public function driver($driver = null): PaymentBuilder
     {
-        return new \DevWizard\Payify\Builders\PaymentBuilder($this->provider($driver));
+        return new PaymentBuilder($this->provider($driver));
     }
 
     public function provider(?string $name = null): PaymentProvider
