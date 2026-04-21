@@ -1,5 +1,5 @@
 <?php
 
-it('can test', function () {
+it('package loads', function () {
     expect(true)->toBeTrue();
 });

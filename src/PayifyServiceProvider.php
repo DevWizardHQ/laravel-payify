@@ -2,7 +2,6 @@
 
 namespace DevWizard\Payify;
 
-use DevWizard\Payify\Commands\PayifyCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -17,9 +16,6 @@ class PayifyServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('laravel-payify')
-            ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_laravel_payify_table')
-            ->hasCommand(PayifyCommand::class);
+            ->hasConfigFile();
     }
 }
