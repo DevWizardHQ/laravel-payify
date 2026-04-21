@@ -17,7 +17,7 @@ use DevWizard\Payify\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-class FakeDriver extends AbstractDriver implements SupportsRefund, SupportsHostedCheckout, HandlesWebhook
+class FakeDriver extends AbstractDriver implements HandlesWebhook, SupportsHostedCheckout, SupportsRefund
 {
     public function name(): string
     {

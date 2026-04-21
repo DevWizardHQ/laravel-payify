@@ -15,6 +15,5 @@ class PaymentRefunded
     public function __construct(
         public Transaction $transaction,
         public RefundResponse $refund,
-    ) {
-    }
+    ) {}
 }

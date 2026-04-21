@@ -15,6 +15,5 @@ class WebhookReceived
     public function __construct(
         public WebhookPayload $payload,
         public ?Transaction $transaction,
-    ) {
-    }
+    ) {}
 }

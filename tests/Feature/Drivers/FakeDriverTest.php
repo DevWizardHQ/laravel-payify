@@ -13,6 +13,7 @@ use DevWizard\Payify\Models\Transaction;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
 
@@ -75,7 +76,7 @@ it('processes refund', function () {
 
 it('verifies webhooks unconditionally', function () {
     $driver = makeFakeDriver();
-    $req = new \Illuminate\Http\Request(query: [], request: [
+    $req = new Request(query: [], request: [
         'event' => 'payment.succeeded',
         'reference' => 'INV-WH',
         'provider_transaction_id' => 'pay_1',

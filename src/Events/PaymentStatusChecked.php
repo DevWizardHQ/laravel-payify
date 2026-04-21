@@ -15,6 +15,5 @@ class PaymentStatusChecked
     public function __construct(
         public Transaction $transaction,
         public StatusResponse $status,
-    ) {
-    }
+    ) {}
 }

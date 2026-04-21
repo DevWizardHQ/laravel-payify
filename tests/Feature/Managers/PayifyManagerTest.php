@@ -2,6 +2,7 @@
 
 use DevWizard\Payify\Drivers\FakeDriver;
 use DevWizard\Payify\Exceptions\ProviderNotFoundException;
+use DevWizard\Payify\Http\PayifyHttpClient;
 use DevWizard\Payify\Managers\PayifyManager;
 
 beforeEach(function () {
@@ -40,7 +41,7 @@ it('supports runtime extend', function () {
 
     $manager->extend('inline', function ($app, $config) {
         return new FakeDriver(
-            client: app(\DevWizard\Payify\Http\PayifyHttpClient::class),
+            client: app(PayifyHttpClient::class),
             config: $config,
             events: app('events'),
             logger: logger(),

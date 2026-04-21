@@ -15,6 +15,5 @@ class PaymentFailed
         public Transaction $transaction,
         public string $errorCode,
         public string $errorMessage,
-    ) {
-    }
+    ) {}
 }

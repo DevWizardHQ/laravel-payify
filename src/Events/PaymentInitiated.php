@@ -11,7 +11,5 @@ class PaymentInitiated
     use Dispatchable;
     use SerializesModels;
 
-    public function __construct(public Transaction $transaction)
-    {
-    }
+    public function __construct(public Transaction $transaction) {}
 }

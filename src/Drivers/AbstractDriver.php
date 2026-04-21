@@ -29,8 +29,7 @@ abstract class AbstractDriver implements PaymentProvider
         protected array $config,
         protected Dispatcher $events,
         protected LoggerInterface $logger,
-    ) {
-    }
+    ) {}
 
     abstract public function name(): string;
 
@@ -56,6 +55,7 @@ abstract class AbstractDriver implements PaymentProvider
         try {
             $response = $this->executePayment($request, $txn);
             $this->applyResponse($txn, $response);
+
             return $response;
         } catch (Throwable $e) {
             return $this->handleFailure($txn, $e);
@@ -67,6 +67,7 @@ abstract class AbstractDriver implements PaymentProvider
         $response = $this->executeStatus($transaction);
         $transaction->refreshFromStatus($response);
         $this->events->dispatch(new PaymentStatusChecked($transaction, $response));
+
         return $response;
     }
 
@@ -83,6 +84,7 @@ abstract class AbstractDriver implements PaymentProvider
     protected function baseUrl(): string
     {
         $key = $this->mode() === 'live' ? 'live_url' : 'sandbox_url';
+
         return (string) ($this->config[$key] ?? '');
     }
 
@@ -189,12 +191,14 @@ abstract class AbstractDriver implements PaymentProvider
                 $e->providerErrorMessage() ?? $e->getMessage(),
             ];
         }
+
         return ['PROVIDER_FAILURE', $e->getMessage()];
     }
 
     protected function throwsExceptions(): bool
     {
         $flag = config('payify.throw_exceptions');
+
         return $flag ?? (bool) config('app.debug');
     }
 
