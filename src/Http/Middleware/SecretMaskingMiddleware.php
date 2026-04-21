@@ -7,9 +7,7 @@ class SecretMaskingMiddleware
     /**
      * @param  string[]  $maskKeys  substrings matched case-insensitively against keys/header names
      */
-    public function __construct(private array $maskKeys = [])
-    {
-    }
+    public function __construct(private array $maskKeys = []) {}
 
     public function maskPayload(array $data): array
     {

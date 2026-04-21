@@ -13,8 +13,7 @@ class RetryMiddleware
     public function __construct(
         private int $maxRetries,
         private int $baseDelayMs,
-    ) {
-    }
+    ) {}
 
     public function __invoke(): callable
     {

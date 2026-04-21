@@ -13,8 +13,7 @@ class LoggingMiddleware
         private LoggerInterface $logger,
         private bool $logBodies,
         private SecretMaskingMiddleware $masker,
-    ) {
-    }
+    ) {}
 
     public function __invoke(callable $handler): callable
     {
@@ -24,10 +23,12 @@ class LoggingMiddleware
             return $handler($request, $options)->then(
                 function (ResponseInterface $response) use ($request, $start) {
                     $this->log('payify.http', $request, $response, $start);
+
                     return $response;
                 },
                 function ($reason) use ($request, $start) {
                     $this->log('payify.http.error', $request, null, $start, $reason);
+
                     return Create::rejectionFor($reason);
                 }
             );
@@ -69,6 +70,7 @@ class LoggingMiddleware
     private function decodeMasked(string $body): mixed
     {
         $decoded = json_decode($body, true);
+
         return is_array($decoded) ? $this->masker->maskPayload($decoded) : $body;
     }
 }
