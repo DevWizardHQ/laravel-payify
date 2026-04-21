@@ -3,6 +3,7 @@
 use DevWizard\Payify\Builders\PaymentBuilder;
 use DevWizard\Payify\Drivers\FakeDriver;
 use DevWizard\Payify\Facades\Payify;
+use DevWizard\Payify\Testing\PayifyFake;
 
 beforeEach(function () {
     config()->set('payify.default', 'fake');
@@ -22,16 +23,16 @@ it('forwards default-driver calls via magic __call', function () {
 });
 
 afterEach(function () {
-    \DevWizard\Payify\Payify::resetCustomRoutes();
+    DevWizard\Payify\Payify::resetCustomRoutes();
 });
 
 it('registers custom routes and suppresses default registration', function () {
-    \DevWizard\Payify\Payify::routes(['prefix' => 'custom/payments']);
-    expect(\DevWizard\Payify\Payify::hasCustomRoutes())->toBeTrue();
-    \DevWizard\Payify\Payify::resetCustomRoutes();
-    expect(\DevWizard\Payify\Payify::hasCustomRoutes())->toBeFalse();
+    DevWizard\Payify\Payify::routes(['prefix' => 'custom/payments']);
+    expect(DevWizard\Payify\Payify::hasCustomRoutes())->toBeTrue();
+    DevWizard\Payify\Payify::resetCustomRoutes();
+    expect(DevWizard\Payify\Payify::hasCustomRoutes())->toBeFalse();
 });
 
 it('returns PayifyFake from facade fake()', function () {
-    expect(\DevWizard\Payify\Facades\Payify::fake())->toBeInstanceOf(\DevWizard\Payify\Testing\PayifyFake::class);
+    expect(Payify::fake())->toBeInstanceOf(PayifyFake::class);
 });

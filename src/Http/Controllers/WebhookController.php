@@ -68,18 +68,18 @@ class WebhookController
 
         match ($payload->event) {
             'payment.succeeded' => $txn->markSucceeded($payload->providerTransactionId, $payload->raw),
-            'payment.failed'    => $txn->markFailed($code, $message, $payload->raw),
+            'payment.failed' => $txn->markFailed($code, $message, $payload->raw),
             'payment.cancelled' => $txn->markCancelled($payload->raw),
-            'payment.refunded'  => $txn->markRefunded($payload->amount ?? (float) $txn->amount, $payload->raw),
-            default             => null,
+            'payment.refunded' => $txn->markRefunded($payload->amount ?? (float) $txn->amount, $payload->raw),
+            default => null,
         };
 
         $event = match ($payload->event) {
             'payment.succeeded' => new PaymentSucceeded($txn->fresh()),
-            'payment.failed'    => new PaymentFailed($txn->fresh(), $code, $message),
+            'payment.failed' => new PaymentFailed($txn->fresh(), $code, $message),
             'payment.cancelled' => new PaymentCancelled($txn->fresh()),
-            'payment.refunded'  => new PaymentRefunded($txn->fresh(), RefundResponse::fromWebhook($payload)),
-            default             => null,
+            'payment.refunded' => new PaymentRefunded($txn->fresh(), RefundResponse::fromWebhook($payload)),
+            default => null,
         };
 
         if ($event) {

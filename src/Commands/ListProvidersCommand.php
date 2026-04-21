@@ -17,6 +17,7 @@ class ListProvidersCommand extends Command
 
         if ($providers === []) {
             $this->warn('No providers configured. Edit config/payify.php to add one.');
+
             return self::SUCCESS;
         }
 

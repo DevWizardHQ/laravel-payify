@@ -27,6 +27,7 @@ class MakeDriverCommand extends Command
 
         if (File::exists($path) && ! $this->option('force')) {
             $this->error("Driver already exists at [{$path}]. Use --force to overwrite.");
+
             return self::FAILURE;
         }
 

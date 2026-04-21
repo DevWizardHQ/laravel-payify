@@ -6,6 +6,7 @@ use DevWizard\Payify\Events\PaymentSucceeded;
 use DevWizard\Payify\Events\WebhookReceived;
 use DevWizard\Payify\Jobs\ProcessWebhookJob;
 use DevWizard\Payify\Models\Transaction;
+use DevWizard\Payify\Tests\Fixtures\NonWebhookDriver;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
@@ -60,7 +61,7 @@ it('queues webhook processing when configured', function () {
 
 it('returns 400 for unsupported provider', function () {
     config()->set('payify.providers.plain', [
-        'driver' => \DevWizard\Payify\Tests\Fixtures\NonWebhookDriver::class,
+        'driver' => NonWebhookDriver::class,
         'mode' => 'sandbox',
         'credentials' => [],
     ]);

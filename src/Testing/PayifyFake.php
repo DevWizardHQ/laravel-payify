@@ -3,6 +3,8 @@
 namespace DevWizard\Payify\Testing;
 
 use DevWizard\Payify\Drivers\FakeDriver;
+use DevWizard\Payify\Facades\Payify;
+use DevWizard\Payify\Http\PayifyHttpClient;
 use DevWizard\Payify\Managers\PayifyManager;
 
 class PayifyFake
@@ -12,9 +14,7 @@ class PayifyFake
     /**
      * @param  array<string, array>  $cannedByProvider
      */
-    public function __construct(private array $cannedByProvider = [])
-    {
-    }
+    public function __construct(private array $cannedByProvider = []) {}
 
     public static function install(array|string $providers = []): self
     {
@@ -25,7 +25,7 @@ class PayifyFake
             return new FakePayifyManager($app, $fake);
         });
 
-        \DevWizard\Payify\Facades\Payify::clearResolvedInstance('payify');
+        Payify::clearResolvedInstance('payify');
 
         return $fake;
     }
@@ -68,7 +68,7 @@ class FakePayifyManager extends PayifyManager
         ];
 
         return new FakeDriver(
-            client: $this->container->make(\DevWizard\Payify\Http\PayifyHttpClient::class),
+            client: $this->container->make(PayifyHttpClient::class),
             config: $config,
             events: $this->container->make('events'),
             logger: $this->container->make('log')->getLogger(),

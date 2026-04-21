@@ -23,6 +23,7 @@ class RefundCommand extends Command
 
         if (! $txn) {
             $this->error('Transaction not found.');
+
             return self::FAILURE;
         }
 
@@ -30,6 +31,7 @@ class RefundCommand extends Command
 
         if (! $driver instanceof SupportsRefund) {
             $this->error("Provider [{$txn->provider}] does not support refunds.");
+
             return self::FAILURE;
         }
 

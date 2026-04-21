@@ -14,9 +14,9 @@ class Payify
         self::$routesOverridden = true;
 
         $group = array_filter([
-            'prefix'     => $options['prefix'] ?? config('payify.routes.prefix', 'payify'),
+            'prefix' => $options['prefix'] ?? config('payify.routes.prefix', 'payify'),
             'middleware' => $options['middleware'] ?? config('payify.routes.middleware', ['api']),
-            'domain'     => $options['domain'] ?? config('payify.routes.domain'),
+            'domain' => $options['domain'] ?? config('payify.routes.domain'),
         ], fn ($v) => $v !== null);
 
         Route::group($group, function () {

@@ -66,9 +66,9 @@ class PayifyServiceProvider extends PackageServiceProvider
         }
 
         $group = array_filter([
-            'prefix'     => $this->app['config']->get('payify.routes.prefix', 'payify'),
+            'prefix' => $this->app['config']->get('payify.routes.prefix', 'payify'),
             'middleware' => $this->app['config']->get('payify.routes.middleware', ['api']),
-            'domain'     => $this->app['config']->get('payify.routes.domain'),
+            'domain' => $this->app['config']->get('payify.routes.domain'),
         ], fn ($v) => $v !== null);
 
         Route::group($group, function () {

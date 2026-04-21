@@ -1,5 +1,7 @@
 <?php
 
+use DevWizard\Payify\Exceptions\PayifyException;
+
 arch('no debug calls')
     ->expect(['dd', 'dump', 'ray', 'var_dump'])
     ->not->toBeUsed();
@@ -16,8 +18,8 @@ arch('contracts are interfaces')
 arch('exceptions extend PayifyException')
     ->expect('DevWizard\Payify\Exceptions')
     ->classes()
-    ->toExtend(\DevWizard\Payify\Exceptions\PayifyException::class)
-    ->ignoring(\DevWizard\Payify\Exceptions\PayifyException::class);
+    ->toExtend(PayifyException::class)
+    ->ignoring(PayifyException::class);
 
 arch('no cross-layer coupling into Http controllers from DTOs')
     ->expect('DevWizard\Payify\Dto')

@@ -19,11 +19,13 @@ class WebhookReplayCommand extends Command
 
         if (! $txn) {
             $this->error('Transaction not found.');
+
             return self::FAILURE;
         }
 
         if (empty($txn->webhook_payload)) {
             $this->error('No stored webhook payload for this transaction.');
+
             return self::FAILURE;
         }
 

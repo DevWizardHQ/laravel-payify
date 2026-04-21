@@ -21,6 +21,7 @@ class CleanupCommand extends Command
 
         if (! $status) {
             $this->error('Invalid status.');
+
             return self::FAILURE;
         }
 
@@ -42,6 +43,7 @@ class CleanupCommand extends Command
 
         if ($this->option('dry-run')) {
             $this->info("Dry run: would delete {$count} {$status->value} transactions older than {$days} days.");
+
             return self::SUCCESS;
         }
 

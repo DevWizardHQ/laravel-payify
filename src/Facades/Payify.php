@@ -2,6 +2,7 @@
 
 namespace DevWizard\Payify\Facades;
 
+use DevWizard\Payify\Managers\PayifyManager;
 use Illuminate\Support\Facades\Facade;
 
 /**
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static \DevWizard\Payify\Managers\PayifyManager extend(string $name, \Closure $closure)
  * @method static \DevWizard\Payify\Testing\PayifyFake fake(array|string $providers = [])
  *
- * @see \DevWizard\Payify\Managers\PayifyManager
+ * @see PayifyManager
  */
 class Payify extends Facade
 {

@@ -20,6 +20,7 @@ class StatusCommand extends Command
 
         if (! $txn) {
             $this->error("Transaction [{$id}] not found.");
+
             return self::FAILURE;
         }
 
@@ -31,7 +32,7 @@ class StatusCommand extends Command
         $this->line("  Provider: {$txn->provider}");
         $this->line("  Before:   {$before}");
         $this->line("  After:    {$response->status->value}");
-        $this->line("  Provider txn: ".($response->providerTransactionId ?? '(none)'));
+        $this->line('  Provider txn: '.($response->providerTransactionId ?? '(none)'));
 
         return self::SUCCESS;
     }

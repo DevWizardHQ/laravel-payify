@@ -2,6 +2,8 @@
 
 namespace DevWizard\Payify\Tests;
 
+use DevWizard\Payify\Drivers\FakeDriver;
+use DevWizard\Payify\Payify;
 use DevWizard\Payify\PayifyServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
@@ -10,7 +12,7 @@ class TestCase extends Orchestra
 {
     protected function tearDown(): void
     {
-        \DevWizard\Payify\Payify::resetCustomRoutes();
+        Payify::resetCustomRoutes();
         parent::tearDown();
     }
 
@@ -41,7 +43,7 @@ class TestCase extends Orchestra
         config()->set('app.debug', false);
         config()->set('payify.routes.middleware', []);
         config()->set('payify.providers.fake', [
-            'driver' => \DevWizard\Payify\Drivers\FakeDriver::class,
+            'driver' => FakeDriver::class,
             'mode' => 'sandbox',
             'credentials' => [],
         ]);
