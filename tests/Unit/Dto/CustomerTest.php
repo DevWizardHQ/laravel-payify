@@ -11,7 +11,7 @@ it('stores customer fields', function () {
 });
 
 it('allows all-null customer', function () {
-    $c = new Customer();
+    $c = new Customer;
     expect($c->name)->toBeNull();
     expect($c->email)->toBeNull();
     expect($c->phone)->toBeNull();
