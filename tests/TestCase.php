@@ -44,9 +44,10 @@ class TestCase extends Orchestra
 
             return new PayifyHttpClient($config, $app['log']->getLogger());
         });
-        $app->singleton(PayifyManager::class, function ($app) {
+        $app->singleton('payify', function ($app) {
             return new PayifyManager($app);
         });
+        $app->alias('payify', PayifyManager::class);
     }
 
     protected function defineRoutes($router): void

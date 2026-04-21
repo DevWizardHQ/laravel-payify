@@ -5,12 +5,19 @@ namespace DevWizard\Payify\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \DevWizard\Payify\Payify
+ * @method static \DevWizard\Payify\Builders\PaymentBuilder driver(?string $name = null)
+ * @method static \DevWizard\Payify\Contracts\PaymentProvider provider(string $name)
+ * @method static \DevWizard\Payify\Dto\PaymentResponse pay(array $data = [])
+ * @method static \DevWizard\Payify\Dto\RefundResponse refund(array $data = [])
+ * @method static \DevWizard\Payify\Dto\StatusResponse status(array $data = [])
+ * @method static \DevWizard\Payify\Managers\PayifyManager extend(string $name, \Closure $closure)
+ *
+ * @see \DevWizard\Payify\Managers\PayifyManager
  */
 class Payify extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return \DevWizard\Payify\Payify::class;
+        return 'payify';
     }
 }
