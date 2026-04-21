@@ -18,7 +18,10 @@ class CallbackController
         $redirectUrl = config('payify.callback.redirect_url');
 
         if ($redirectUrl) {
-            return redirect()->to($redirectUrl.'?status='.$response->status->value.'&transaction='.$response->transactionId);
+            return redirect()->to($redirectUrl.'?'.http_build_query([
+                'status' => $response->status->value,
+                'transaction' => $response->transactionId,
+            ]));
         }
 
         return response()->json([

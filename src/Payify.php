@@ -13,11 +13,13 @@ class Payify
     {
         self::$routesOverridden = true;
 
-        Route::group([
-            'prefix' => $options['prefix'] ?? config('payify.routes.prefix', 'payify'),
+        $group = array_filter([
+            'prefix'     => $options['prefix'] ?? config('payify.routes.prefix', 'payify'),
             'middleware' => $options['middleware'] ?? config('payify.routes.middleware', ['api']),
-            'domain' => $options['domain'] ?? config('payify.routes.domain'),
-        ], function () {
+            'domain'     => $options['domain'] ?? config('payify.routes.domain'),
+        ], fn ($v) => $v !== null);
+
+        Route::group($group, function () {
             require __DIR__.'/../routes/payify.php';
         });
     }

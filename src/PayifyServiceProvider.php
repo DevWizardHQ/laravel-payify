@@ -49,11 +49,13 @@ class PayifyServiceProvider extends PackageServiceProvider
             return;
         }
 
-        Route::group([
-            'prefix' => $this->app['config']->get('payify.routes.prefix', 'payify'),
+        $group = array_filter([
+            'prefix'     => $this->app['config']->get('payify.routes.prefix', 'payify'),
             'middleware' => $this->app['config']->get('payify.routes.middleware', ['api']),
-            'domain' => $this->app['config']->get('payify.routes.domain'),
-        ], function () {
+            'domain'     => $this->app['config']->get('payify.routes.domain'),
+        ], fn ($v) => $v !== null);
+
+        Route::group($group, function () {
             $this->loadRoutesFrom(__DIR__.'/../routes/payify.php');
         });
     }

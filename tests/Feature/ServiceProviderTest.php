@@ -17,12 +17,14 @@ it('binds PayifyHttpClient as singleton', function () {
     expect($a)->toBe($b);
 });
 
+afterEach(function () {
+    \DevWizard\Payify\Payify::resetCustomRoutes();
+});
+
 it('skips default route registration when host overrides', function () {
     config()->set('payify.routes.enabled', true);
     \DevWizard\Payify\Payify::routes(['prefix' => 'override', 'middleware' => []]);
 
     $this->postJson('/override/webhook/fake', ['event' => 'payment.succeeded'])
         ->assertStatus(200);
-
-    \DevWizard\Payify\Payify::resetCustomRoutes();
 });

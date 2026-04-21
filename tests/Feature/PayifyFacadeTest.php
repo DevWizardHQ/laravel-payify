@@ -21,6 +21,10 @@ it('forwards default-driver calls via magic __call', function () {
     expect(Payify::driver())->toBeInstanceOf(PaymentBuilder::class);
 });
 
+afterEach(function () {
+    \DevWizard\Payify\Payify::resetCustomRoutes();
+});
+
 it('registers custom routes and suppresses default registration', function () {
     \DevWizard\Payify\Payify::routes(['prefix' => 'custom/payments']);
     expect(\DevWizard\Payify\Payify::hasCustomRoutes())->toBeTrue();
