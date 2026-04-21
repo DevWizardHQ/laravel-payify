@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'default' => env('PAYIFY_DEFAULT', 'fake'),
+    'default' => env('PAYIFY_DEFAULT'),
     'mode' => env('PAYIFY_MODE', 'sandbox'),
     'default_currency' => env('PAYIFY_CURRENCY', 'BDT'),
     'throw_exceptions' => env('PAYIFY_THROW'),

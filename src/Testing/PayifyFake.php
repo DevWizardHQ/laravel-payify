@@ -44,6 +44,8 @@ class PayifyFake
 /**
  * Internal manager subclass that coerces every driver resolution into a FakeDriver
  * while preserving custom canned responses per provider.
+ *
+ * @internal
  */
 class FakePayifyManager extends PayifyManager
 {

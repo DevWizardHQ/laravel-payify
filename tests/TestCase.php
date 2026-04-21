@@ -8,6 +8,12 @@ use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
+    protected function tearDown(): void
+    {
+        \DevWizard\Payify\Payify::resetCustomRoutes();
+        parent::tearDown();
+    }
+
     protected function setUp(): void
     {
         parent::setUp();

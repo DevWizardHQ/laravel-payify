@@ -98,7 +98,9 @@ class {{ class }} extends AbstractDriver implements SupportsRefund, SupportsHost
 
     public function verifyWebhook(Request $request): WebhookPayload
     {
-        // TODO: verify signature; throw WebhookVerificationException on mismatch
+        // TODO: verify signature; throw WebhookVerificationException on mismatch.
+        // SECURITY: remove `verified: true` and implement real HMAC/RSA verification
+        // before deploying to production — accepting all webhooks is a security risk.
         return new WebhookPayload(
             provider: $this->name(),
             event: (string) $request->input('event', ''),
