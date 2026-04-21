@@ -2,6 +2,4 @@
 
 namespace DevWizard\Payify\Exceptions;
 
-final class InvalidCredentialsException extends PayifyException
-{
-}
+final class InvalidCredentialsException extends PayifyException {}

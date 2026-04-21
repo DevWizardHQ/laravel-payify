@@ -2,6 +2,4 @@
 
 namespace DevWizard\Payify\Contracts;
 
-interface SupportsHostedCheckout
-{
-}
+interface SupportsHostedCheckout {}

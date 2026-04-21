@@ -2,6 +2,4 @@
 
 namespace DevWizard\Payify\Exceptions;
 
-final class ValidationException extends PayifyException
-{
-}
+final class ValidationException extends PayifyException {}

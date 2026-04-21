@@ -2,6 +2,4 @@
 
 namespace DevWizard\Payify\Contracts;
 
-interface SupportsDirectApi
-{
-}
+interface SupportsDirectApi {}

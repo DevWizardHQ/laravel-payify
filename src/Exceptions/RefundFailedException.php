@@ -2,6 +2,4 @@
 
 namespace DevWizard\Payify\Exceptions;
 
-final class RefundFailedException extends PaymentFailedException
-{
-}
+final class RefundFailedException extends PaymentFailedException {}

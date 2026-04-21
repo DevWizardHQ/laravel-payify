@@ -2,6 +2,4 @@
 
 namespace DevWizard\Payify\Exceptions;
 
-final class ProviderNotFoundException extends PayifyException
-{
-}
+final class ProviderNotFoundException extends PayifyException {}

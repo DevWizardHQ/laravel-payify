@@ -33,5 +33,8 @@ class TestCase extends Orchestra
             'prefix' => '',
         ]);
         config()->set('app.debug', false);
+
+        $migration = include __DIR__.'/../database/migrations/create_payify_transactions_table.php.stub';
+        $migration->up();
     }
 }

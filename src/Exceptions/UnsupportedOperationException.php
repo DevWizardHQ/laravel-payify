@@ -2,6 +2,4 @@
 
 namespace DevWizard\Payify\Exceptions;
 
-final class UnsupportedOperationException extends PayifyException
-{
-}
+final class UnsupportedOperationException extends PayifyException {}
