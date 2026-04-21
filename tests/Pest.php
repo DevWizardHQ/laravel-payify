@@ -2,4 +2,5 @@
 
 use DevWizard\Payify\Tests\TestCase;
 
-uses(TestCase::class)->in(__DIR__);
+uses(TestCase::class)->in('Feature');
+uses(TestCase::class)->in('Unit');
