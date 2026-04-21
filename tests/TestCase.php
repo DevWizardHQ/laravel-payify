@@ -2,9 +2,9 @@
 
 namespace DevWizard\Payify\Tests;
 
+use DevWizard\Payify\PayifyServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use DevWizard\Payify\PayifyServiceProvider;
 
 class TestCase extends Orchestra
 {

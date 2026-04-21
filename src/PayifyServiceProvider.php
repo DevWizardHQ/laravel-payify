@@ -2,9 +2,9 @@
 
 namespace DevWizard\Payify;
 
+use DevWizard\Payify\Commands\PayifyCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use DevWizard\Payify\Commands\PayifyCommand;
 
 class PayifyServiceProvider extends PackageServiceProvider
 {
