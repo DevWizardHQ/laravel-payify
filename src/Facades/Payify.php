@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static \DevWizard\Payify\Dto\RefundResponse refund(array $data = [])
  * @method static \DevWizard\Payify\Dto\StatusResponse status(array $data = [])
  * @method static \DevWizard\Payify\Managers\PayifyManager extend(string $name, \Closure $closure)
+ * @method static \DevWizard\Payify\Testing\PayifyFake fake(array|string $providers = [])
  *
  * @see \DevWizard\Payify\Managers\PayifyManager
  */

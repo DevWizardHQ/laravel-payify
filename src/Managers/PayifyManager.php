@@ -5,6 +5,7 @@ namespace DevWizard\Payify\Managers;
 use DevWizard\Payify\Builders\PaymentBuilder;
 use DevWizard\Payify\Contracts\PaymentProvider;
 use DevWizard\Payify\Exceptions\ProviderNotFoundException;
+use DevWizard\Payify\Testing\PayifyFake;
 use Illuminate\Support\Manager;
 use Illuminate\Support\Str;
 
@@ -82,5 +83,10 @@ class PayifyManager extends Manager
     public function provider(?string $name = null): PaymentProvider
     {
         return parent::driver($name);
+    }
+
+    public function fake(array|string $providers = []): PayifyFake
+    {
+        return PayifyFake::install($providers);
     }
 }

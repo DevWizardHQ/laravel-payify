@@ -31,3 +31,7 @@ it('registers custom routes and suppresses default registration', function () {
     \DevWizard\Payify\Payify::resetCustomRoutes();
     expect(\DevWizard\Payify\Payify::hasCustomRoutes())->toBeFalse();
 });
+
+it('returns PayifyFake from facade fake()', function () {
+    expect(\DevWizard\Payify\Facades\Payify::fake())->toBeInstanceOf(\DevWizard\Payify\Testing\PayifyFake::class);
+});
