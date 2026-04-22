@@ -907,6 +907,126 @@ parameters:
 			path: src/Providers/Bkash/BkashTokenManager.php
 
 		-
+			message: '#^Method DevWizard\\Payify\\Providers\\Sslcommerz\\SslcommerzErrorMap\:\:map\(\) has parameter \$raw with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Providers/Sslcommerz/SslcommerzErrorMap.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Providers\\Sslcommerz\\SslcommerzIpnVerifier\:\:__construct\(\) has parameter \$config with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Providers/Sslcommerz/SslcommerzIpnVerifier.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Providers\\Sslcommerz\\SslcommerzPayloadBuilder\:\:__construct\(\) has parameter \$config with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Providers/Sslcommerz/SslcommerzPayloadBuilder.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Providers\\Sslcommerz\\SslcommerzPayloadBuilder\:\:build\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Providers/Sslcommerz/SslcommerzPayloadBuilder.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>address1" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: src/Providers/Sslcommerz/SslcommerzPayloadBuilder.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>address2" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: src/Providers/Sslcommerz/SslcommerzPayloadBuilder.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>city" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: src/Providers/Sslcommerz/SslcommerzPayloadBuilder.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>country" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: src/Providers/Sslcommerz/SslcommerzPayloadBuilder.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>email" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: src/Providers/Sslcommerz/SslcommerzPayloadBuilder.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: src/Providers/Sslcommerz/SslcommerzPayloadBuilder.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>phone" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: src/Providers/Sslcommerz/SslcommerzPayloadBuilder.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>postcode" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: src/Providers/Sslcommerz/SslcommerzPayloadBuilder.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>state" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: src/Providers/Sslcommerz/SslcommerzPayloadBuilder.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Providers\\Sslcommerz\\SslcommerzRefundClient\:\:__construct\(\) has parameter \$config with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Providers/Sslcommerz/SslcommerzRefundClient.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Providers\\Sslcommerz\\SslcommerzRefundClient\:\:initiate\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Providers/Sslcommerz/SslcommerzRefundClient.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Providers\\Sslcommerz\\SslcommerzRefundClient\:\:query\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Providers/Sslcommerz/SslcommerzRefundClient.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Providers\\Sslcommerz\\SslcommerzValidator\:\:__construct\(\) has parameter \$config with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Providers/Sslcommerz/SslcommerzValidator.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Providers\\Sslcommerz\\SslcommerzValidator\:\:queryBySessionKey\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Providers/Sslcommerz/SslcommerzValidator.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Providers\\Sslcommerz\\SslcommerzValidator\:\:queryByTranId\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Providers/Sslcommerz/SslcommerzValidator.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Providers\\Sslcommerz\\SslcommerzValidator\:\:validateByValId\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Providers/Sslcommerz/SslcommerzValidator.php
+
+		-
 			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$status\.$#'
 			identifier: property.notFound
 			count: 2
