@@ -50,7 +50,7 @@ class RefundCommand extends Command
         $label = $amount !== null ? "Refund {$txn->currency} {$amount} for transaction {$txn->id}?" : "Refund full amount for transaction {$txn->id}?";
 
         if (! confirm($label, default: false)) {
-            return self::FAILURE;
+            return self::SUCCESS;
         }
 
         $response = spin(

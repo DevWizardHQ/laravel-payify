@@ -36,7 +36,7 @@ class VoidCommand extends Command
         }
 
         if (! confirm("Void transaction {$txn->id}?", default: false)) {
-            return self::FAILURE;
+            return self::SUCCESS;
         }
 
         spin(fn () => $driver->void($txn), 'Voiding transaction...');

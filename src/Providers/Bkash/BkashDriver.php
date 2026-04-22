@@ -136,6 +136,10 @@ class BkashDriver extends AbstractDriver implements SupportsAuthCapture, Support
             return PaymentResponse::fromTransaction($txn->fresh());
         }
 
+        if ($txn->webhook_verified_at !== null) {
+            return PaymentResponse::fromTransaction($txn);
+        }
+
         $execResponse = $this->postAuthed(Constants::PATH_EXECUTE, ['paymentID' => $paymentId]);
 
         $txnStatus = (string) ($execResponse['transactionStatus'] ?? '');

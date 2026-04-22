@@ -212,7 +212,7 @@ class SslcommerzDriver extends AbstractDriver implements HandlesWebhook, Support
             raw: $response,
         );
 
-        if ($refundStatus !== Constants::REFUND_STATUS_CANCELLED) {
+        if ($refundStatus === Constants::REFUND_STATUS_REFUNDED) {
             $this->events->dispatch(new PaymentRefunded($txn->fresh(), $refundResponse));
         }
 
