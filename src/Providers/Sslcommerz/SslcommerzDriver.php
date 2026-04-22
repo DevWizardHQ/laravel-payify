@@ -25,6 +25,7 @@ use DevWizard\Payify\Http\PayifyHttpClient;
 use DevWizard\Payify\Models\Transaction;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Psr\Log\LoggerInterface;
 
 class SslcommerzDriver extends AbstractDriver implements HandlesWebhook, SupportsEmbeddedCheckout, SupportsEmi, SupportsHostedCheckout, SupportsRefund, SupportsRefundQuery
@@ -68,6 +69,7 @@ class SslcommerzDriver extends AbstractDriver implements HandlesWebhook, Support
     {
         return [
             'refund' => true,
+            'refund_query' => true,
             'tokenization' => false,
             'hosted_checkout' => true,
             'direct_api' => false,
@@ -166,7 +168,8 @@ class SslcommerzDriver extends AbstractDriver implements HandlesWebhook, Support
         $bankTranId = $txn->provider_transaction_id
             ?: throw new ValidationException("Missing bank_tran_id on transaction [{$txn->id}].");
 
-        $refundTransId = $req->extras['refund_trans_id'] ?? $txn->reference.'-REF-'.now()->timestamp;
+        $refundTransId = $req->extras['refund_trans_id']
+            ?? $txn->reference.'-REF-'.now()->timestamp.'-'.Str::upper(Str::random(6));
         $amount = $req->amount ?? (float) $txn->remainingRefundable();
 
         $response = $this->refundClient->initiate(

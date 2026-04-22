@@ -7,7 +7,6 @@ use DevWizard\Payify\Managers\PayifyManager;
 use DevWizard\Payify\Models\Transaction;
 use Illuminate\Console\Command;
 
-use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\error;
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\spin;
@@ -35,7 +34,7 @@ class VoidCommand extends Command
             return self::FAILURE;
         }
 
-        if (! confirm("Void transaction {$txn->id}?", default: false)) {
+        if (! $this->confirm("Void transaction {$txn->id}?", false)) {
             return self::SUCCESS;
         }
 

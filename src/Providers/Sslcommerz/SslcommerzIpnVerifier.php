@@ -66,7 +66,11 @@ class SslcommerzIpnVerifier
 
         $validation = $this->validator->validateByValId((string) $valId);
         $status = (string) ($validation['status'] ?? '');
-        $amountMatches = (string) ($validation['amount'] ?? '') === (string) $request->input('amount');
+
+        $validatorAmount = isset($validation['amount']) ? (float) $validation['amount'] : null;
+        $requestAmount = $request->has('amount') ? (float) $request->input('amount') : null;
+        $amountMatches = $validatorAmount !== null && $requestAmount !== null
+            && abs($validatorAmount - $requestAmount) < 0.01;
 
         if (! in_array($status, [Constants::STATUS_VALID, Constants::STATUS_VALIDATED], true) || ! $amountMatches) {
             throw new WebhookVerificationException('Validator recheck failed', reason: 'validator_disagreement');

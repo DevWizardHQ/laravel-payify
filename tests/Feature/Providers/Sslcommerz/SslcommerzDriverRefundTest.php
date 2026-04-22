@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Event;
 uses(RefreshDatabase::class);
 require_once __DIR__.'/../../../TestHelpers/sslcommerz_driver_with.php';
 
-it('processes refund and stores refund_ref_id', function () {
+it('stores refund_ref_id without dispatching PaymentRefunded on processing status', function () {
     Event::fake([PaymentRefunded::class]);
     $mock = new MockHandler([FixtureLoader::json('Sslcommerz/refund-initiate-processing.json')]);
     $driver = sslcommerzDriverWith($mock);
@@ -28,7 +28,8 @@ it('processes refund and stores refund_ref_id', function () {
     expect($resp->amount)->toBe(500.0);
     $fresh = $txn->fresh();
     expect(data_get($fresh->response_payload, 'refund.refund_ref_id'))->toBe('REF-RP-1');
-    Event::assertDispatched(PaymentRefunded::class);
+    // Processing is deferred — finalization happens via payify:refund:status polling.
+    Event::assertNotDispatched(PaymentRefunded::class);
 });
 
 it('does not dispatch PaymentRefunded when refund is cancelled', function () {

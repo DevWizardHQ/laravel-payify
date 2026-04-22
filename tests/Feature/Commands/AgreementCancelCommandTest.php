@@ -64,16 +64,30 @@ beforeEach(function () {
     config()->set('payify.providers.tokfake', ['mode' => 'sandbox', 'credentials' => []]);
 });
 
-it('cancels an agreement via provider', function () {
+it('cancels an agreement via provider after confirmation', function () {
     Agreement::create([
         'provider' => 'tokfake', 'agreement_id' => 'AGR-CAN',
         'payer_reference' => '017', 'status' => 'active',
     ]);
 
     $this->artisan('payify:agreement:cancel', ['agreement_id' => 'AGR-CAN'])
+        ->expectsConfirmation('Cancel agreement AGR-CAN (provider: tokfake)? This is irreversible.', 'yes')
         ->assertSuccessful();
 
     expect(Agreement::where('agreement_id', 'AGR-CAN')->first()->status)->toBe('cancelled');
+});
+
+it('aborts cancel when user declines confirmation', function () {
+    Agreement::create([
+        'provider' => 'tokfake', 'agreement_id' => 'AGR-KEEP',
+        'payer_reference' => '017', 'status' => 'active',
+    ]);
+
+    $this->artisan('payify:agreement:cancel', ['agreement_id' => 'AGR-KEEP'])
+        ->expectsConfirmation('Cancel agreement AGR-KEEP (provider: tokfake)? This is irreversible.', 'no')
+        ->assertSuccessful();
+
+    expect(Agreement::where('agreement_id', 'AGR-KEEP')->first()->status)->toBe('active');
 });
 
 it('fails when agreement not found', function () {

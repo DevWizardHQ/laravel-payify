@@ -20,6 +20,7 @@ use DevWizard\Payify\Dto\TokenResponse;
 use DevWizard\Payify\Enums\TransactionStatus;
 use DevWizard\Payify\Events\AgreementCancelled;
 use DevWizard\Payify\Events\AgreementCreated;
+use DevWizard\Payify\Events\PaymentAuthorized;
 use DevWizard\Payify\Events\PaymentCancelled;
 use DevWizard\Payify\Events\PaymentCaptured;
 use DevWizard\Payify\Events\PaymentFailed;
@@ -59,6 +60,7 @@ class BkashDriver extends AbstractDriver implements SupportsAuthCapture, Support
     {
         return [
             'refund' => true,
+            'refund_query' => false,
             'tokenization' => true,
             'hosted_checkout' => true,
             'direct_api' => false,
@@ -66,6 +68,8 @@ class BkashDriver extends AbstractDriver implements SupportsAuthCapture, Support
             'payout' => true,
             'webhook' => false,
             'partial_refund' => true,
+            'emi' => false,
+            'embedded_checkout' => false,
             'currencies' => ['BDT'],
         ];
     }
@@ -153,6 +157,7 @@ class BkashDriver extends AbstractDriver implements SupportsAuthCapture, Support
 
         if ($txn->intent === Constants::INTENT_AUTH && $txnStatus === Constants::TXN_STATUS_AUTHORIZED) {
             $txn->markAuthorized($execResponse['trxID'] ?? null, $execResponse);
+            $this->events->dispatch(new PaymentAuthorized($txn->fresh()));
 
             return PaymentResponse::fromTransaction($txn->fresh());
         }

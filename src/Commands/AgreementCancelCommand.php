@@ -21,6 +21,10 @@ class AgreementCancelCommand extends Command
             return self::FAILURE;
         }
 
+        if (! $this->confirm("Cancel agreement {$agreement->agreement_id} (provider: {$agreement->provider})? This is irreversible.", false)) {
+            return self::SUCCESS;
+        }
+
         $ok = $agreement->cancel();
 
         $this->info($ok ? "Cancelled {$agreement->agreement_id}." : 'Cancel failed.');

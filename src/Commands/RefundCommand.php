@@ -8,7 +8,6 @@ use DevWizard\Payify\Managers\PayifyManager;
 use DevWizard\Payify\Models\Transaction;
 use Illuminate\Console\Command;
 
-use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\error;
 use function Laravel\Prompts\spin;
 use function Laravel\Prompts\table;
@@ -49,7 +48,7 @@ class RefundCommand extends Command
         $amount = $this->option('amount') !== null ? (float) $this->option('amount') : null;
         $label = $amount !== null ? "Refund {$txn->currency} {$amount} for transaction {$txn->id}?" : "Refund full amount for transaction {$txn->id}?";
 
-        if (! confirm($label, default: false)) {
+        if (! $this->confirm($label, false)) {
             return self::SUCCESS;
         }
 

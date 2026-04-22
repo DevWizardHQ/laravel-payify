@@ -109,9 +109,9 @@ parameters:
 			path: src/Builders/PayoutBuilder.php
 
 		-
-			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Agreement\:\:\$agreement_id\.$#'
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Agreement\:\:\$(agreement_id|provider)\.$#'
 			identifier: property.notFound
-			count: 1
+			count: 3
 			path: src/Commands/AgreementCancelCommand.php
 
 		-
@@ -674,12 +674,6 @@ parameters:
 
 		-
 			message: '#^Method DevWizard\\Payify\\Providers\\Sslcommerz\\SslcommerzDriver\:\:applyValidation\(\) has parameter \$validation with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Providers/Sslcommerz/SslcommerzDriver.php
-
-		-
-			message: '#^Method DevWizard\\Payify\\Providers\\Sslcommerz\\SslcommerzDriver\:\:queryRefund\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Providers/Sslcommerz/SslcommerzDriver.php

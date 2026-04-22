@@ -8,7 +8,6 @@ use DevWizard\Payify\Http\Controllers\WebhookController;
 use DevWizard\Payify\Models\Transaction;
 use Illuminate\Console\Command;
 
-use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\error;
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\spin;
@@ -35,8 +34,8 @@ class WebhookReplayCommand extends Command
             return self::FAILURE;
         }
 
-        if (! confirm("Replay webhook for transaction {$txn->id}?", default: false)) {
-            return self::FAILURE;
+        if (! $this->confirm("Replay webhook for transaction {$txn->id}?", false)) {
+            return self::SUCCESS;
         }
 
         $raw = $txn->webhook_payload;

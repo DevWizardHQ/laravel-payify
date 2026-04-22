@@ -62,15 +62,29 @@ beforeEach(function () {
     config()->set('payify.providers.voidfake', ['mode' => 'sandbox', 'credentials' => []]);
 });
 
-it('voids an authorized transaction', function () {
+it('voids an authorized transaction after confirmation', function () {
     $t = Transaction::create([
         'provider' => 'voidfake', 'reference' => 'VO-1', 'amount' => 100,
         'currency' => 'BDT', 'status' => TransactionStatus::Processing,
     ]);
 
     $this->artisan('payify:void', ['transaction_id' => $t->id])
+        ->expectsConfirmation("Void transaction {$t->id}?", 'yes')
         ->assertSuccessful();
 
     expect($t->fresh()->status)->toBe(TransactionStatus::Cancelled);
     expect($t->fresh()->voided_at)->not->toBeNull();
+});
+
+it('aborts void when user declines confirmation', function () {
+    $t = Transaction::create([
+        'provider' => 'voidfake', 'reference' => 'VO-NO', 'amount' => 100,
+        'currency' => 'BDT', 'status' => TransactionStatus::Processing,
+    ]);
+
+    $this->artisan('payify:void', ['transaction_id' => $t->id])
+        ->expectsConfirmation("Void transaction {$t->id}?", 'no')
+        ->assertSuccessful();
+
+    expect($t->fresh()->status)->toBe(TransactionStatus::Processing);
 });

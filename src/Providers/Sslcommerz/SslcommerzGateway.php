@@ -17,9 +17,7 @@ class SslcommerzGateway
     {
         $payload = $this->payloadBuilder->build($req, $ipnUrl);
 
-        $response = $this->client->post($this->baseUrl().Constants::PATH_INIT, $payload, [
-            'Content-Type' => 'application/x-www-form-urlencoded',
-        ]);
+        $response = $this->client->postForm($this->baseUrl().Constants::PATH_INIT, $payload);
 
         if (($response['status'] ?? '') !== 'SUCCESS') {
             $reason = (string) ($response['failedreason'] ?? 'Init failed');

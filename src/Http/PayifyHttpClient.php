@@ -42,7 +42,20 @@ class PayifyHttpClient
 
     public function post(string $url, array $data = [], array $headers = []): array
     {
-        return $this->request('POST', $url, ['json' => $data, 'headers' => $headers]);
+        return $this->request('POST', $url, [$this->bodyKey($headers) => $data, 'headers' => $headers]);
+    }
+
+    /**
+     * POST with application/x-www-form-urlencoded body. Explicit alternative for
+     * providers that reject JSON (e.g. SSLCommerz v4 /gwprocess).
+     *
+     * @param  array<string, mixed>  $data
+     * @param  array<string, string>  $headers
+     * @return array<string, mixed>
+     */
+    public function postForm(string $url, array $data = [], array $headers = []): array
+    {
+        return $this->request('POST', $url, ['form_params' => $data, 'headers' => $headers]);
     }
 
     public function get(string $url, array $query = [], array $headers = []): array
@@ -52,12 +65,24 @@ class PayifyHttpClient
 
     public function put(string $url, array $data = [], array $headers = []): array
     {
-        return $this->request('PUT', $url, ['json' => $data, 'headers' => $headers]);
+        return $this->request('PUT', $url, [$this->bodyKey($headers) => $data, 'headers' => $headers]);
     }
 
     public function delete(string $url, array $headers = []): array
     {
         return $this->request('DELETE', $url, ['headers' => $headers]);
+    }
+
+    /** @param  array<string, string>  $headers */
+    private function bodyKey(array $headers): string
+    {
+        foreach ($headers as $name => $value) {
+            if (strcasecmp((string) $name, 'Content-Type') === 0 && str_contains(strtolower((string) $value), 'x-www-form-urlencoded')) {
+                return 'form_params';
+            }
+        }
+
+        return 'json';
     }
 
     public function raw(): Client
