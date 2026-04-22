@@ -29,7 +29,6 @@ use DevWizard\Payify\Events\PaymentVoided;
 use DevWizard\Payify\Events\PayoutFailed;
 use DevWizard\Payify\Events\PayoutInitiated;
 use DevWizard\Payify\Events\PayoutSucceeded;
-use DevWizard\Payify\Exceptions\PayifyException;
 use DevWizard\Payify\Exceptions\ValidationException;
 use DevWizard\Payify\Http\PayifyHttpClient;
 use DevWizard\Payify\Models\Agreement;
@@ -99,7 +98,7 @@ class BkashDriver extends AbstractDriver implements SupportsAuthCapture, Support
     public function handleCallback(Request $request): PaymentResponse
     {
         $paymentId = (string) $request->input('paymentID', '');
-        $status = (string) $request->input('status', 'success');
+        $status = (string) $request->input('status', '');
 
         $txn = Transaction::where('provider', $this->name())
             ->where('provider_transaction_id', $paymentId)
@@ -126,6 +125,13 @@ class BkashDriver extends AbstractDriver implements SupportsAuthCapture, Support
         if ($status === 'failure' || $status === 'failed') {
             $txn->markFailed('USER_CANCELLED_OR_FAILED', 'User did not complete payment', ['query' => $request->query()]);
             $this->events->dispatch(new PaymentFailed($txn->fresh(), 'USER_CANCELLED_OR_FAILED', 'User did not complete payment'));
+
+            return PaymentResponse::fromTransaction($txn->fresh());
+        }
+
+        if ($status !== 'success') {
+            $txn->markCancelled(['query' => $request->query()]);
+            $this->events->dispatch(new PaymentCancelled($txn->fresh()));
 
             return PaymentResponse::fromTransaction($txn->fresh());
         }
@@ -264,9 +270,11 @@ class BkashDriver extends AbstractDriver implements SupportsAuthCapture, Support
 
     public function tokenize(Customer $customer): TokenResponse
     {
+        $payerRef = $this->requestBuilder->sanitize((string) $customer->phone);
+
         $payload = [
             'mode' => Constants::MODE_AGREEMENT_CREATE,
-            'payerReference' => $this->requestBuilder->sanitize((string) $customer->phone),
+            'payerReference' => $payerRef,
             'callbackURL' => (string) ($this->config['agreement_callback_url'] ?? config('payify.routes.prefix').'/callback/bkash/agreement'),
             'amount' => '1.00',
             'currency' => 'BDT',
@@ -276,8 +284,22 @@ class BkashDriver extends AbstractDriver implements SupportsAuthCapture, Support
         $response = $this->postAuthed(Constants::PATH_CREATE, $payload);
         $this->assertStatusOk($response);
 
+        $paymentId = (string) $response['paymentID'];
+
+        Transaction::create([
+            'provider' => $this->name(),
+            'type' => 'agreement_create',
+            'reference' => $paymentId,
+            'amount' => 1.00,
+            'currency' => 'BDT',
+            'status' => TransactionStatus::Processing,
+            'provider_transaction_id' => $paymentId,
+            'customer' => ['phone' => $payerRef],
+            'request_payload' => $payload,
+        ]);
+
         return new TokenResponse(
-            token: (string) $response['paymentID'],
+            token: $paymentId,
             raw: $response,
         );
     }
@@ -396,27 +418,23 @@ class BkashDriver extends AbstractDriver implements SupportsAuthCapture, Support
 
     protected function postAuthed(string $path, array $body, int $retryCount = 0): array
     {
-        try {
-            $response = $this->client->post(
-                $this->baseUrl().$path,
-                $body,
-                [
-                    'Authorization' => $this->tokens->idToken(),
-                    'X-APP-Key' => $this->credential('app_key'),
-                    'Content-Type' => 'application/json',
-                ],
-            );
+        $response = $this->client->post(
+            $this->baseUrl().$path,
+            $body,
+            [
+                'Authorization' => $this->tokens->idToken(),
+                'X-APP-Key' => $this->credential('app_key'),
+                'Content-Type' => 'application/json',
+            ],
+        );
 
-            if (($response['statusCode'] ?? null) === Constants::ERR_INVALID_TOKEN && $retryCount === 0) {
-                $this->tokens->forget();
+        if (($response['statusCode'] ?? null) === Constants::ERR_INVALID_TOKEN && $retryCount === 0) {
+            $this->tokens->forget();
 
-                return $this->postAuthed($path, $body, $retryCount + 1);
-            }
-
-            return $response;
-        } catch (PayifyException $e) {
-            throw $e;
+            return $this->postAuthed($path, $body, $retryCount + 1);
         }
+
+        return $response;
     }
 
     protected function assertStatusOk(array $response): void

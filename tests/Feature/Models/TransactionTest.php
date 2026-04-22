@@ -187,6 +187,11 @@ it('resolves agreement relation by string column + provider scope', function () 
     expect($t->agreement?->id)->toBe($a->id);
 });
 
+it('agreement relation uses configurable table name not hardcoded string', function () {
+    $source = file_get_contents(dirname(__DIR__, 3).'/src/Models/Transaction.php');
+    expect($source)->not->toContain("'payify_agreements.provider'");
+});
+
 it('agreement relation returns null when agreement_id not set', function () {
     $t = Transaction::create([
         'provider' => 'bkash', 'reference' => 'NO-AGR', 'amount' => 100,

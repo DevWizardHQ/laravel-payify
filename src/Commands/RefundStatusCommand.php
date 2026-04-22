@@ -2,6 +2,7 @@
 
 namespace DevWizard\Payify\Commands;
 
+use DevWizard\Payify\Contracts\SupportsRefundQuery;
 use DevWizard\Payify\Managers\PayifyManager;
 use DevWizard\Payify\Models\Transaction;
 use Illuminate\Console\Command;
@@ -35,7 +36,7 @@ class RefundStatusCommand extends Command
 
         $driver = $manager->provider($txn->provider);
 
-        if (! method_exists($driver, 'queryRefund')) {
+        if (! $driver instanceof SupportsRefundQuery) {
             error("Provider [{$txn->provider}] does not support refund status queries.");
 
             return self::FAILURE;

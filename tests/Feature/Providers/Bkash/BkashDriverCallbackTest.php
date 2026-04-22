@@ -34,6 +34,24 @@ it('calls execute on success callback and marks transaction succeeded', function
     Event::assertDispatched(PaymentSucceeded::class);
 });
 
+it('returns failed when status param is missing without calling execute', function () {
+    $mock = new MockHandler([]); // no HTTP calls expected
+    $driver = bkashDriverWith($mock);
+
+    Transaction::create([
+        'provider' => 'bkash', 'reference' => 'INV-NO-STATUS', 'amount' => 100,
+        'currency' => 'BDT', 'status' => TransactionStatus::Processing,
+        'provider_transaction_id' => 'TR-NO-STATUS',
+    ]);
+
+    $response = $driver->handleCallback(Request::create('/cb', 'GET', [
+        'paymentID' => 'TR-NO-STATUS',
+        // no 'status' param
+    ]));
+
+    expect($response->status)->toBe(TransactionStatus::Cancelled);
+});
+
 it('marks cancelled without calling execute on status=cancel', function () {
     $mock = new MockHandler([]);
     $driver = bkashDriverWith($mock);

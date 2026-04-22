@@ -31,6 +31,22 @@ it('processes refund and stores refund_ref_id', function () {
     Event::assertDispatched(PaymentRefunded::class);
 });
 
+it('does not dispatch PaymentRefunded when refund is cancelled', function () {
+    Event::fake([PaymentRefunded::class]);
+    $mock = new MockHandler([FixtureLoader::json('Sslcommerz/refund-initiate-cancelled.json')]);
+    $driver = sslcommerzDriverWith($mock);
+
+    $txn = Transaction::create([
+        'provider' => 'sslcommerz', 'reference' => 'INV-RC', 'amount' => 1000,
+        'currency' => 'BDT', 'status' => TransactionStatus::Succeeded,
+        'provider_transaction_id' => 'BT-CANCEL',
+    ]);
+
+    $driver->refund(new RefundRequest(transactionId: $txn->id, amount: 500, reason: 'return'));
+
+    Event::assertNotDispatched(PaymentRefunded::class);
+});
+
 it('queries refund status', function () {
     $mock = new MockHandler([FixtureLoader::json('Sslcommerz/refund-query-refunded.json')]);
     $driver = sslcommerzDriverWith($mock);

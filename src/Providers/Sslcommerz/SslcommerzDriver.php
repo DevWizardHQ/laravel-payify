@@ -7,6 +7,7 @@ use DevWizard\Payify\Contracts\SupportsEmbeddedCheckout;
 use DevWizard\Payify\Contracts\SupportsEmi;
 use DevWizard\Payify\Contracts\SupportsHostedCheckout;
 use DevWizard\Payify\Contracts\SupportsRefund;
+use DevWizard\Payify\Contracts\SupportsRefundQuery;
 use DevWizard\Payify\Drivers\AbstractDriver;
 use DevWizard\Payify\Dto\PaymentRequest;
 use DevWizard\Payify\Dto\PaymentResponse;
@@ -26,7 +27,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Psr\Log\LoggerInterface;
 
-class SslcommerzDriver extends AbstractDriver implements HandlesWebhook, SupportsEmbeddedCheckout, SupportsEmi, SupportsHostedCheckout, SupportsRefund
+class SslcommerzDriver extends AbstractDriver implements HandlesWebhook, SupportsEmbeddedCheckout, SupportsEmi, SupportsHostedCheckout, SupportsRefund, SupportsRefundQuery
 {
     protected SslcommerzGateway $gateway;
 
@@ -194,14 +195,14 @@ class SslcommerzDriver extends AbstractDriver implements HandlesWebhook, Support
         if ($refundStatus === Constants::REFUND_STATUS_REFUNDED) {
             // Bank confirmed the refund; flip transaction state.
             $txn->markRefunded($amount, $payload);
-            $status = $txn->fresh()->status;
         } else {
             // Processing / unknown: persist refund_ref_id but keep transaction in its
             // current state. Merchants can poll via `payify:refund:status` to confirm.
             $txn->response_payload = $payload;
             $txn->save();
-            $status = $txn->fresh()->status;
         }
+
+        $status = $txn->fresh()->status;
 
         $refundResponse = new RefundResponse(
             transactionId: $txn->id,
@@ -211,7 +212,9 @@ class SslcommerzDriver extends AbstractDriver implements HandlesWebhook, Support
             raw: $response,
         );
 
-        $this->events->dispatch(new PaymentRefunded($txn->fresh(), $refundResponse));
+        if ($refundStatus !== Constants::REFUND_STATUS_CANCELLED) {
+            $this->events->dispatch(new PaymentRefunded($txn->fresh(), $refundResponse));
+        }
 
         return $refundResponse;
     }

@@ -100,8 +100,10 @@ class Transaction extends Model
 
     public function agreement(): HasOne
     {
+        $agreementTable = (new Agreement)->getTable();
+
         return $this->hasOne(Agreement::class, 'agreement_id', 'agreement_id')
-            ->where('payify_agreements.provider', $this->provider);
+            ->where("{$agreementTable}.provider", $this->provider);
     }
 
     public function markSucceeded(?string $providerTxnId = null, array $raw = []): void

@@ -21,6 +21,20 @@ it('tokenize() creates agreement-init payment', function () {
     expect($resp->token)->toBe('AGR-INIT-123');
 });
 
+it('tokenize() records a transaction so the agreement callback can resolve it', function () {
+    $mock = new MockHandler([FixtureLoader::json('Bkash/agreement-create-success.json')]);
+    $driver = bkashDriverWith($mock);
+
+    $driver->tokenize(new Customer(phone: '01700000000'));
+
+    $txn = \DevWizard\Payify\Models\Transaction::where('provider', 'bkash')
+        ->where('provider_transaction_id', 'AGR-INIT-123')
+        ->first();
+
+    expect($txn)->not->toBeNull();
+    expect($txn->type)->toBe('agreement_create');
+});
+
 it('chargeToken issues mode=0001 payment', function () {
     $mock = new MockHandler([FixtureLoader::json('Bkash/create-payment-success.json')]);
     $driver = bkashDriverWith($mock);
