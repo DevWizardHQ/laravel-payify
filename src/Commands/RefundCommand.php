@@ -8,6 +8,11 @@ use DevWizard\Payify\Managers\PayifyManager;
 use DevWizard\Payify\Models\Transaction;
 use Illuminate\Console\Command;
 
+use function Laravel\Prompts\confirm;
+use function Laravel\Prompts\error;
+use function Laravel\Prompts\spin;
+use function Laravel\Prompts\table;
+
 class RefundCommand extends Command
 {
     protected $signature = 'payify:refund
@@ -22,7 +27,7 @@ class RefundCommand extends Command
         $txn = Transaction::find((string) $this->argument('transaction_id'));
 
         if (! $txn) {
-            $this->error('Transaction not found.');
+            error('Transaction not found.');
 
             return self::FAILURE;
         }
@@ -30,28 +35,41 @@ class RefundCommand extends Command
         $driver = $manager->provider($txn->provider);
 
         if (! $driver instanceof SupportsRefund) {
-            $this->error("Provider [{$txn->provider}] does not support refunds.");
+            error("Provider [{$txn->provider}] does not support refunds.");
 
             return self::FAILURE;
         }
 
         if (! $txn->canRefund()) {
-            $this->error("Transaction [{$txn->id}] is not in a refundable state (status: {$txn->status->value}).");
+            error("Transaction [{$txn->id}] is not in a refundable state (status: {$txn->status->value}).");
 
             return self::FAILURE;
         }
 
         $amount = $this->option('amount') !== null ? (float) $this->option('amount') : null;
+        $label = $amount !== null ? "Refund {$txn->currency} {$amount} for transaction {$txn->id}?" : "Refund full amount for transaction {$txn->id}?";
 
-        $response = $driver->refund(new RefundRequest(
-            transactionId: $txn->id,
-            amount: $amount,
-            reason: $this->option('reason'),
-        ));
+        if (! confirm($label, default: false)) {
+            return self::FAILURE;
+        }
 
-        $this->line("Refund ID:  {$response->refundId}");
-        $this->line("Amount:     {$response->amount}");
-        $this->line("Status:     {$response->status->value}");
+        $response = spin(
+            fn () => $driver->refund(new RefundRequest(
+                transactionId: $txn->id,
+                amount: $amount,
+                reason: $this->option('reason'),
+            )),
+            'Processing refund...',
+        );
+
+        table(
+            headers: ['Field', 'Value'],
+            rows: [
+                ['Refund ID', $response->refundId],
+                ['Amount', (string) $response->amount],
+                ['Status', $response->status->value],
+            ],
+        );
 
         return self::SUCCESS;
     }

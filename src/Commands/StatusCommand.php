@@ -6,6 +6,10 @@ use DevWizard\Payify\Managers\PayifyManager;
 use DevWizard\Payify\Models\Transaction;
 use Illuminate\Console\Command;
 
+use function Laravel\Prompts\error;
+use function Laravel\Prompts\spin;
+use function Laravel\Prompts\table;
+
 class StatusCommand extends Command
 {
     protected $signature = 'payify:status {transaction_id}';
@@ -19,20 +23,28 @@ class StatusCommand extends Command
         $txn = Transaction::find($id);
 
         if (! $txn) {
-            $this->error("Transaction [{$id}] not found.");
+            error("Transaction [{$id}] not found.");
 
             return self::FAILURE;
         }
 
         $before = $txn->status->value;
 
-        $response = $manager->provider($txn->provider)->status($txn);
+        $response = spin(
+            fn () => $manager->provider($txn->provider)->status($txn),
+            'Fetching status from provider...',
+        );
 
-        $this->line("Transaction: {$txn->id}");
-        $this->line("  Provider: {$txn->provider}");
-        $this->line("  Before:   {$before}");
-        $this->line("  After:    {$response->status->value}");
-        $this->line('  Provider txn: '.($response->providerTransactionId ?? '(none)'));
+        table(
+            headers: ['Field', 'Value'],
+            rows: [
+                ['Transaction', $txn->id],
+                ['Provider', $txn->provider],
+                ['Before', $before],
+                ['After', $response->status->value],
+                ['Provider Txn', $response->providerTransactionId ?? '(none)'],
+            ],
+        );
 
         return self::SUCCESS;
     }

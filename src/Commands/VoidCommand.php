@@ -7,6 +7,11 @@ use DevWizard\Payify\Managers\PayifyManager;
 use DevWizard\Payify\Models\Transaction;
 use Illuminate\Console\Command;
 
+use function Laravel\Prompts\confirm;
+use function Laravel\Prompts\error;
+use function Laravel\Prompts\info;
+use function Laravel\Prompts\spin;
+
 class VoidCommand extends Command
 {
     protected $signature = 'payify:void {transaction_id}';
@@ -17,7 +22,7 @@ class VoidCommand extends Command
     {
         $txn = Transaction::find((string) $this->argument('transaction_id'));
         if (! $txn) {
-            $this->error('Transaction not found.');
+            error('Transaction not found.');
 
             return self::FAILURE;
         }
@@ -25,14 +30,18 @@ class VoidCommand extends Command
         $driver = $manager->provider($txn->provider);
 
         if (! $driver instanceof SupportsAuthCapture) {
-            $this->error("Provider [{$txn->provider}] does not support void.");
+            error("Provider [{$txn->provider}] does not support void.");
 
             return self::FAILURE;
         }
 
-        $driver->void($txn);
+        if (! confirm("Void transaction {$txn->id}?", default: false)) {
+            return self::FAILURE;
+        }
 
-        $this->info("Voided {$txn->id}.");
+        spin(fn () => $driver->void($txn), 'Voiding transaction...');
+
+        info("Voided {$txn->id}.");
 
         return self::SUCCESS;
     }

@@ -7,6 +7,10 @@ use DevWizard\Payify\Managers\PayifyManager;
 use DevWizard\Payify\Models\Transaction;
 use Illuminate\Console\Command;
 
+use function Laravel\Prompts\error;
+use function Laravel\Prompts\spin;
+use function Laravel\Prompts\table;
+
 class CaptureCommand extends Command
 {
     protected $signature = 'payify:capture {transaction_id} {--amount=}';
@@ -17,7 +21,7 @@ class CaptureCommand extends Command
     {
         $txn = Transaction::find((string) $this->argument('transaction_id'));
         if (! $txn) {
-            $this->error('Transaction not found.');
+            error('Transaction not found.');
 
             return self::FAILURE;
         }
@@ -25,18 +29,23 @@ class CaptureCommand extends Command
         $driver = $manager->provider($txn->provider);
 
         if (! $driver instanceof SupportsAuthCapture) {
-            $this->error("Provider [{$txn->provider}] does not support capture.");
+            error("Provider [{$txn->provider}] does not support capture.");
 
             return self::FAILURE;
         }
 
         $amount = $this->option('amount') !== null ? (float) $this->option('amount') : null;
 
-        $response = $driver->capture($txn, $amount);
+        $response = spin(fn () => $driver->capture($txn, $amount), 'Capturing transaction...');
 
-        $this->line("Transaction: {$txn->id}");
-        $this->line("Status:      {$response->status->value}");
-        $this->line("Amount:      {$response->amount}");
+        table(
+            headers: ['Field', 'Value'],
+            rows: [
+                ['Transaction', $txn->id],
+                ['Status', $response->status->value],
+                ['Amount', (string) $response->amount],
+            ],
+        );
 
         return self::SUCCESS;
     }

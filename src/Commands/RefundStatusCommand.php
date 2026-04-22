@@ -6,6 +6,10 @@ use DevWizard\Payify\Managers\PayifyManager;
 use DevWizard\Payify\Models\Transaction;
 use Illuminate\Console\Command;
 
+use function Laravel\Prompts\error;
+use function Laravel\Prompts\spin;
+use function Laravel\Prompts\table;
+
 class RefundStatusCommand extends Command
 {
     protected $signature = 'payify:refund:status {transaction_id}';
@@ -16,7 +20,7 @@ class RefundStatusCommand extends Command
     {
         $txn = Transaction::find((string) $this->argument('transaction_id'));
         if (! $txn) {
-            $this->error('Transaction not found.');
+            error('Transaction not found.');
 
             return self::FAILURE;
         }
@@ -24,7 +28,7 @@ class RefundStatusCommand extends Command
         $refundRefId = data_get($txn->response_payload, 'refund.refund_ref_id');
 
         if (! $refundRefId) {
-            $this->error('No refund_ref_id stored on this transaction.');
+            error('No refund_ref_id stored on this transaction.');
 
             return self::FAILURE;
         }
@@ -32,15 +36,17 @@ class RefundStatusCommand extends Command
         $driver = $manager->provider($txn->provider);
 
         if (! method_exists($driver, 'queryRefund')) {
-            $this->error("Provider [{$txn->provider}] does not support refund status queries.");
+            error("Provider [{$txn->provider}] does not support refund status queries.");
 
             return self::FAILURE;
         }
 
-        $result = $driver->queryRefund($refundRefId);
+        $result = spin(fn () => $driver->queryRefund($refundRefId), 'Querying refund status...');
 
-        $this->line("Refund ref: {$refundRefId}");
-        $this->line('Status:     '.($result['status'] ?? 'unknown'));
+        table(
+            headers: ['Refund Ref', 'Status'],
+            rows: [[$refundRefId, $result['status'] ?? 'unknown']],
+        );
 
         return self::SUCCESS;
     }
