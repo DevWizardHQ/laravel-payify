@@ -1,0 +1,33 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create(config('payify.agreements_table', 'payify_agreements'), function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('provider', 50)->index();
+            $table->string('agreement_id', 191);
+            $table->string('payer_reference', 191)->index();
+            $table->nullableMorphs('payable');
+            $table->string('status', 30)->index();
+            $table->json('metadata')->nullable();
+            $table->timestamp('activated_at')->nullable();
+            $table->timestamp('cancelled_at')->nullable();
+            $table->timestamp('expires_at')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->unique(['provider', 'agreement_id']);
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists(config('payify.agreements_table', 'payify_agreements'));
+    }
+};
