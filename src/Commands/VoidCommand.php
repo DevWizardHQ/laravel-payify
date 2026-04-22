@@ -15,7 +15,7 @@ class VoidCommand extends Command
 
     public function handle(PayifyManager $manager): int
     {
-        $txn = Transaction::find($this->argument('transaction_id'));
+        $txn = Transaction::find((string) $this->argument('transaction_id'));
         if (! $txn) {
             $this->error('Transaction not found.');
 

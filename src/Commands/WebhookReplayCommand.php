@@ -16,7 +16,7 @@ class WebhookReplayCommand extends Command
 
     public function handle(): int
     {
-        $txn = Transaction::find($this->argument('transaction_id'));
+        $txn = Transaction::find((string) $this->argument('transaction_id'));
 
         if (! $txn) {
             $this->error('Transaction not found.');

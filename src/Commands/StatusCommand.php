@@ -14,7 +14,7 @@ class StatusCommand extends Command
 
     public function handle(PayifyManager $manager): int
     {
-        $id = $this->argument('transaction_id');
+        $id = (string) $this->argument('transaction_id');
 
         $txn = Transaction::find($id);
 

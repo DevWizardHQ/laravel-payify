@@ -13,6 +13,39 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @property string $id
+ * @property string $provider
+ * @property string $type
+ * @property string $intent
+ * @property string|null $provider_transaction_id
+ * @property string|null $agreement_id
+ * @property string|null $reference
+ * @property string $amount
+ * @property string $currency
+ * @property TransactionStatus $status
+ * @property array<string,mixed>|null $customer
+ * @property array<string,mixed>|null $metadata
+ * @property array<string,mixed>|null $request_payload
+ * @property array<string,mixed>|null $response_payload
+ * @property string|null $error_code
+ * @property string|null $error_message
+ * @property string $refunded_amount
+ * @property array<string,mixed>|null $webhook_payload
+ * @property \Illuminate\Support\Carbon|null $webhook_verified_at
+ * @property \Illuminate\Support\Carbon|null $paid_at
+ * @property \Illuminate\Support\Carbon|null $failed_at
+ * @property \Illuminate\Support\Carbon|null $refunded_at
+ * @property \Illuminate\Support\Carbon|null $expires_at
+ * @property \Illuminate\Support\Carbon|null $authorized_at
+ * @property \Illuminate\Support\Carbon|null $captured_at
+ * @property \Illuminate\Support\Carbon|null $voided_at
+ * @property string|null $payable_type
+ * @property string|null $payable_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ */
 class Transaction extends Model
 {
     use HasFactory;
