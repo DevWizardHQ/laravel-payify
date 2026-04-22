@@ -153,11 +153,14 @@ class Transaction extends Model
 
     public function refreshFromStatus(StatusResponse $status): void
     {
-        $this->update([
+        $data = [
             'status' => $status->status,
             'provider_transaction_id' => $status->providerTransactionId ?? $this->provider_transaction_id,
-            'refunded_amount' => $status->refundedAmount ?? $this->refunded_amount,
-        ]);
+        ];
+        if ($status->refundedAmount !== null) {
+            $data['refunded_amount'] = $status->refundedAmount;
+        }
+        $this->update($data);
     }
 
     public function isPending(): bool
