@@ -1,0 +1,27 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::table(config('payify.table', 'payify_transactions'), function (Blueprint $table) {
+            $table->string('type', 20)->default('payment')->after('provider')->index();
+            $table->string('intent', 20)->nullable()->after('type');
+            $table->string('agreement_id', 191)->nullable()->after('provider_transaction_id')->index();
+            $table->timestamp('authorized_at')->nullable()->after('paid_at');
+            $table->timestamp('captured_at')->nullable()->after('authorized_at');
+            $table->timestamp('voided_at')->nullable()->after('captured_at');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::table(config('payify.table', 'payify_transactions'), function (Blueprint $table) {
+            $table->dropColumn(['type', 'intent', 'agreement_id', 'authorized_at', 'captured_at', 'voided_at']);
+        });
+    }
+};

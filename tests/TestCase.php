@@ -50,5 +50,8 @@ class TestCase extends Orchestra
 
         $migration = include __DIR__.'/../database/migrations/create_payify_transactions_table.php.stub';
         $migration->up();
+
+        $phase2 = include __DIR__.'/../database/migrations/extend_payify_transactions_for_phase2.php.stub';
+        $phase2->up();
     }
 }
