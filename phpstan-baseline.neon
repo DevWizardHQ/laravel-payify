@@ -163,7 +163,7 @@ parameters:
 			path: src/Commands/AgreementListCommand.php
 
 		-
-			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$provider\.$#'
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$provider\.$#'
 			identifier: property.notFound
 			count: 2
 			path: src/Commands/CaptureCommand.php
@@ -199,79 +199,79 @@ parameters:
 			path: src/Commands/ListProvidersCommand.php
 
 		-
-			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$provider\.$#'
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$provider\.$#'
 			identifier: property.notFound
 			count: 2
 			path: src/Commands/RefundCommand.php
 
 		-
-			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$status\.$#'
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$status\.$#'
 			identifier: property.notFound
 			count: 1
 			path: src/Commands/RefundCommand.php
 
 		-
-			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$provider\.$#'
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$provider\.$#'
 			identifier: property.notFound
 			count: 2
 			path: src/Commands/RefundStatusCommand.php
 
 		-
-			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$response_payload\.$#'
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$response_payload\.$#'
 			identifier: property.notFound
 			count: 1
 			path: src/Commands/RefundStatusCommand.php
 
 		-
-			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$provider\.$#'
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$provider\.$#'
 			identifier: property.notFound
 			count: 2
 			path: src/Commands/StatusCommand.php
 
 		-
-			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$status\.$#'
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$status\.$#'
 			identifier: property.notFound
 			count: 1
 			path: src/Commands/StatusCommand.php
 
 		-
-			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$provider\.$#'
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$provider\.$#'
 			identifier: property.notFound
 			count: 2
 			path: src/Commands/VoidCommand.php
 
 		-
-			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$amount\.$#'
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$amount\.$#'
 			identifier: property.notFound
 			count: 1
 			path: src/Commands/WebhookReplayCommand.php
 
 		-
-			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$currency\.$#'
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$currency\.$#'
 			identifier: property.notFound
 			count: 1
 			path: src/Commands/WebhookReplayCommand.php
 
 		-
-			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$provider\.$#'
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$provider\.$#'
 			identifier: property.notFound
 			count: 1
 			path: src/Commands/WebhookReplayCommand.php
 
 		-
-			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$provider_transaction_id\.$#'
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$provider_transaction_id\.$#'
 			identifier: property.notFound
 			count: 1
 			path: src/Commands/WebhookReplayCommand.php
 
 		-
-			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$reference\.$#'
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$reference\.$#'
 			identifier: property.notFound
 			count: 1
 			path: src/Commands/WebhookReplayCommand.php
 
 		-
-			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$webhook_verified_at\.$#'
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$webhook_verified_at\.$#'
 			identifier: property.notFound
 			count: 1
 			path: src/Commands/WebhookReplayCommand.php
@@ -843,7 +843,7 @@ parameters:
 		-
 			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$status\.$#'
 			identifier: property.notFound
-			count: 2
+			count: 1
 			path: src/Providers/Bkash/BkashDriver.php
 
 		-
@@ -921,13 +921,13 @@ parameters:
 		-
 			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$response_payload\.$#'
 			identifier: property.notFound
-			count: 2
+			count: 1
 			path: src/Providers/Sslcommerz/SslcommerzDriver.php
 
 		-
 			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$status\.$#'
 			identifier: property.notFound
-			count: 1
+			count: 2
 			path: src/Providers/Sslcommerz/SslcommerzDriver.php
 
 		-

@@ -56,11 +56,16 @@ class BkashTokenManager
             throw new InvalidCredentialsException("bKash token grant failed [{$code}]: {$message}");
         }
 
-        $ttl = max(60, (int) ($response['expires_in'] ?? 3600) - (int) ($this->config['token_safety_margin'] ?? 60));
+        $margin = (int) ($this->config['token_safety_margin'] ?? 60);
+        $ttl = max(60, (int) ($response['expires_in'] ?? 3600) - $margin);
 
         $this->cache()->put($this->key('id_token'), $response['id_token'], $ttl);
         if (! empty($response['refresh_token'])) {
-            $this->cache()->put($this->key('refresh_token'), $response['refresh_token'], $ttl * 2);
+            // Prefer provider-supplied refresh_token lifetime when present;
+            // fall back to the id_token lifetime with a wider safety window.
+            $refreshExpires = (int) ($response['refresh_token_expires_in'] ?? ($ttl + $margin) * 24);
+            $refreshTtl = max(60, $refreshExpires - $margin);
+            $this->cache()->put($this->key('refresh_token'), $response['refresh_token'], $refreshTtl);
         }
 
         return $response['id_token'];

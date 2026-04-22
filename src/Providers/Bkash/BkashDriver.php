@@ -205,21 +205,18 @@ class BkashDriver extends AbstractDriver implements SupportsAuthCapture, Support
 
         $amount = (float) ($response['amount'] ?? $req->amount ?? $txn->amount);
         $txn->markRefunded($amount, $response);
-        $this->events->dispatch(new PaymentRefunded($txn->fresh(), new RefundResponse(
-            transactionId: $txn->id,
-            refundId: (string) ($response['refundTrxID'] ?? ''),
-            amount: $amount,
-            status: $txn->fresh()->status,
-            raw: $response,
-        )));
 
-        return new RefundResponse(
+        $refundResponse = new RefundResponse(
             transactionId: $txn->id,
             refundId: (string) ($response['refundTrxID'] ?? ''),
             amount: $amount,
             status: $txn->fresh()->status,
             raw: $response,
         );
+
+        $this->events->dispatch(new PaymentRefunded($txn->fresh(), $refundResponse));
+
+        return $refundResponse;
     }
 
     public function authorize(PaymentRequest $req): PaymentResponse
