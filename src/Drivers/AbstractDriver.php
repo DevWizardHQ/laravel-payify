@@ -127,6 +127,7 @@ abstract class AbstractDriver implements PaymentProvider
             'amount' => $req->amount,
             'currency' => $req->currency,
             'status' => TransactionStatus::Pending,
+            'intent' => $req->intent,
             'customer' => $req->customer?->toArray(),
             'metadata' => $req->metadata,
             'request_payload' => $req->toArray(),
