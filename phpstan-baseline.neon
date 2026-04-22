@@ -109,6 +109,66 @@ parameters:
 			path: src/Builders/PayoutBuilder.php
 
 		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Agreement\:\:\$agreement_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Commands/AgreementCancelCommand.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Agreement\:\:\$activated_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Commands/AgreementListCommand.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Agreement\:\:\$agreement_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Commands/AgreementListCommand.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Agreement\:\:\$payer_reference\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Commands/AgreementListCommand.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Agreement\:\:\$provider\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Commands/AgreementListCommand.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Agreement\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Commands/AgreementListCommand.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,DevWizard\\Payify\\Models\\Agreement\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: src/Commands/AgreementListCommand.php
+
+		-
+			message: '#^Return type of call to method Illuminate\\Database\\Eloquent\\Collection\<int,DevWizard\\Payify\\Models\\Agreement\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: method.unresolvableReturnType
+			count: 1
+			path: src/Commands/AgreementListCommand.php
+
+		-
+			message: '#^Return type of call to method Illuminate\\Support\\Collection\<int,array\<int, mixed\>\>\:\:all\(\) contains unresolvable type\.$#'
+			identifier: method.unresolvableReturnType
+			count: 1
+			path: src/Commands/AgreementListCommand.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$provider\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Commands/CaptureCommand.php
+
+		-
 			message: '#^Offset ''direct_api'' on array\{refund\: bool, tokenization\: bool, hosted_checkout\: bool, direct_api\: bool, webhook\: bool, partial_refund\: bool, currencies\: array\<string\>\} on left side of \?\? always exists and is not nullable\.$#'
 			identifier: nullCoalesce.offset
 			count: 1
@@ -154,6 +214,18 @@ parameters:
 			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$provider\.$#'
 			identifier: property.notFound
 			count: 2
+			path: src/Commands/RefundStatusCommand.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$response_payload\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Commands/RefundStatusCommand.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$provider\.$#'
+			identifier: property.notFound
+			count: 2
 			path: src/Commands/StatusCommand.php
 
 		-
@@ -161,6 +233,12 @@ parameters:
 			identifier: property.notFound
 			count: 1
 			path: src/Commands/StatusCommand.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$provider\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Commands/VoidCommand.php
 
 		-
 			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$amount\.$#'
