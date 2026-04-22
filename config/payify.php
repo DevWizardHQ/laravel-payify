@@ -1,5 +1,8 @@
 <?php
 
+use DevWizard\Payify\Providers\Bkash\BkashDriver;
+use DevWizard\Payify\Providers\Sslcommerz\SslcommerzDriver;
+
 return [
     'default' => env('PAYIFY_DEFAULT'),
     'mode' => env('PAYIFY_MODE', 'sandbox'),
@@ -52,7 +55,7 @@ return [
 
     'providers' => [
         'bkash' => [
-            'driver' => \DevWizard\Payify\Providers\Bkash\BkashDriver::class,
+            'driver' => BkashDriver::class,
             'mode' => env('BKASH_MODE', 'sandbox'),
             'credentials' => [
                 'app_key' => env('BKASH_APP_KEY'),
@@ -70,7 +73,7 @@ return [
         ],
 
         'sslcommerz' => [
-            'driver' => \DevWizard\Payify\Providers\Sslcommerz\SslcommerzDriver::class,
+            'driver' => SslcommerzDriver::class,
             'mode' => env('SSLCOMMERZ_MODE', 'sandbox'),
             'credentials' => [
                 'store_id' => env('SSLCOMMERZ_STORE_ID'),
