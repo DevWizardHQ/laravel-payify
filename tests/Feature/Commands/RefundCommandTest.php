@@ -22,9 +22,23 @@ it('processes a full refund via CLI', function () {
     ]);
 
     $this->artisan('payify:refund', ['transaction_id' => $txn->id])
+        ->expectsConfirmation("Refund full amount for transaction {$txn->id}?", 'yes')
         ->assertSuccessful();
 
     expect($txn->fresh()->status)->toBe(TransactionStatus::Refunded);
+});
+
+it('aborts refund when user declines confirmation', function () {
+    $txn = Transaction::create([
+        'provider' => 'fake', 'reference' => 'INV-NOREF', 'amount' => 100,
+        'currency' => 'BDT', 'status' => TransactionStatus::Succeeded,
+    ]);
+
+    $this->artisan('payify:refund', ['transaction_id' => $txn->id])
+        ->expectsConfirmation("Refund full amount for transaction {$txn->id}?", 'no')
+        ->assertSuccessful();
+
+    expect($txn->fresh()->status)->toBe(TransactionStatus::Succeeded);
 });
 
 it('fails when transaction is not in refundable state', function () {
@@ -45,6 +59,7 @@ it('processes a partial refund', function () {
     ]);
 
     $this->artisan('payify:refund', ['transaction_id' => $txn->id, '--amount' => '30'])
+        ->expectsConfirmation("Refund {$txn->currency} 30 for transaction {$txn->id}?", 'yes')
         ->assertSuccessful();
 
     expect($txn->fresh()->status)->toBe(TransactionStatus::PartiallyRefunded);

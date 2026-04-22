@@ -1,8 +1,10 @@
 <?php
 
 use DevWizard\Payify\Enums\TransactionStatus;
+use DevWizard\Payify\Models\Agreement;
 use DevWizard\Payify\Models\Transaction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Schema;
 
 uses(RefreshDatabase::class);
 
@@ -105,4 +107,96 @@ it('soft deletes', function () {
 
     expect(Transaction::find($t->id))->toBeNull();
     expect(Transaction::withTrashed()->find($t->id))->not->toBeNull();
+});
+
+it('has phase 2 columns', function () {
+    $columns = Schema::getColumnListing('payify_transactions');
+
+    expect($columns)->toContain('type', 'intent', 'agreement_id', 'authorized_at', 'captured_at', 'voided_at');
+});
+
+it('defaults type to payment', function () {
+    $t = Transaction::create([
+        'provider' => 'fake', 'reference' => 'T2', 'amount' => 10,
+        'currency' => 'BDT', 'status' => TransactionStatus::Pending,
+    ]);
+    expect($t->fresh()->type)->toBe('payment');
+});
+
+it('accepts payout type', function () {
+    $t = Transaction::create([
+        'provider' => 'fake', 'reference' => 'PO', 'amount' => 10,
+        'currency' => 'BDT', 'status' => TransactionStatus::Pending,
+        'type' => 'payout',
+    ]);
+    expect($t->fresh()->type)->toBe('payout');
+});
+
+it('marks transaction authorized', function () {
+    $t = Transaction::create([
+        'provider' => 'bkash', 'reference' => 'AU', 'amount' => 100,
+        'currency' => 'BDT', 'status' => TransactionStatus::Pending,
+        'intent' => 'authorization',
+    ]);
+
+    $t->markAuthorized('pay_abc', ['ok' => true]);
+
+    expect($t->fresh()->status)->toBe(TransactionStatus::Processing);
+    expect($t->fresh()->authorized_at)->not->toBeNull();
+    expect($t->fresh()->provider_transaction_id)->toBe('pay_abc');
+});
+
+it('marks transaction captured', function () {
+    $t = Transaction::create([
+        'provider' => 'bkash', 'reference' => 'CA', 'amount' => 100,
+        'currency' => 'BDT', 'status' => TransactionStatus::Processing,
+        'authorized_at' => now(),
+    ]);
+
+    $t->markCaptured(100.0, []);
+
+    expect($t->fresh()->status)->toBe(TransactionStatus::Succeeded);
+    expect($t->fresh()->captured_at)->not->toBeNull();
+    expect($t->fresh()->paid_at)->not->toBeNull();
+});
+
+it('marks transaction voided', function () {
+    $t = Transaction::create([
+        'provider' => 'bkash', 'reference' => 'VO', 'amount' => 100,
+        'currency' => 'BDT', 'status' => TransactionStatus::Processing,
+    ]);
+
+    $t->markVoided([]);
+
+    expect($t->fresh()->status)->toBe(TransactionStatus::Cancelled);
+    expect($t->fresh()->voided_at)->not->toBeNull();
+});
+
+it('resolves agreement relation by string column + provider scope', function () {
+    $a = Agreement::create([
+        'provider' => 'bkash', 'agreement_id' => 'AGR-REL',
+        'payer_reference' => '017', 'status' => 'active',
+    ]);
+
+    $t = Transaction::create([
+        'provider' => 'bkash', 'reference' => 'AGR-T', 'amount' => 100,
+        'currency' => 'BDT', 'status' => TransactionStatus::Succeeded,
+        'agreement_id' => 'AGR-REL',
+    ]);
+
+    expect($t->agreement?->id)->toBe($a->id);
+});
+
+it('agreement relation uses configurable table name not hardcoded string', function () {
+    $source = file_get_contents(dirname(__DIR__, 3).'/src/Models/Transaction.php');
+    expect($source)->not->toContain("'payify_agreements.provider'");
+});
+
+it('agreement relation returns null when agreement_id not set', function () {
+    $t = Transaction::create([
+        'provider' => 'bkash', 'reference' => 'NO-AGR', 'amount' => 100,
+        'currency' => 'BDT', 'status' => TransactionStatus::Succeeded,
+    ]);
+
+    expect($t->agreement)->toBeNull();
 });

@@ -2,7 +2,7 @@
 
 namespace DevWizard\Payify\Exceptions;
 
-final class WebhookVerificationException extends PayifyException
+class WebhookVerificationException extends PayifyException
 {
     public function __construct(
         string $message = '',

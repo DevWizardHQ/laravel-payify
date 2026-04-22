@@ -1,0 +1,5 @@
+{
+    "status": "INVALID_TRANSACTION",
+    "tran_id": "UNKNOWN",
+    "error": "Transaction not found"
+}

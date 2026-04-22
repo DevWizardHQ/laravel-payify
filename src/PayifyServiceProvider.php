@@ -2,12 +2,18 @@
 
 namespace DevWizard\Payify;
 
+use DevWizard\Payify\Commands\AgreementCancelCommand;
+use DevWizard\Payify\Commands\AgreementListCommand;
+use DevWizard\Payify\Commands\CaptureCommand;
 use DevWizard\Payify\Commands\CleanupCommand;
 use DevWizard\Payify\Commands\InstallCommand;
 use DevWizard\Payify\Commands\ListProvidersCommand;
 use DevWizard\Payify\Commands\MakeDriverCommand;
+use DevWizard\Payify\Commands\PayoutCommand;
 use DevWizard\Payify\Commands\RefundCommand;
+use DevWizard\Payify\Commands\RefundStatusCommand;
 use DevWizard\Payify\Commands\StatusCommand;
+use DevWizard\Payify\Commands\VoidCommand;
 use DevWizard\Payify\Commands\WebhookReplayCommand;
 use DevWizard\Payify\Http\PayifyHttpClient;
 use DevWizard\Payify\Managers\PayifyManager;
@@ -23,6 +29,8 @@ class PayifyServiceProvider extends PackageServiceProvider
             ->name('laravel-payify')
             ->hasConfigFile('payify')
             ->hasMigration('create_payify_transactions_table')
+            ->hasMigration('extend_payify_transactions_for_phase2')
+            ->hasMigration('create_payify_agreements_table')
             ->hasCommands([
                 InstallCommand::class,
                 MakeDriverCommand::class,
@@ -31,6 +39,12 @@ class PayifyServiceProvider extends PackageServiceProvider
                 RefundCommand::class,
                 WebhookReplayCommand::class,
                 CleanupCommand::class,
+                CaptureCommand::class,
+                VoidCommand::class,
+                AgreementListCommand::class,
+                AgreementCancelCommand::class,
+                PayoutCommand::class,
+                RefundStatusCommand::class,
             ]);
     }
 

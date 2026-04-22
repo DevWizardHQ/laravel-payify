@@ -1,0 +1,54 @@
+<?php
+
+namespace DevWizard\Payify\Commands;
+
+use DevWizard\Payify\Contracts\SupportsRefundQuery;
+use DevWizard\Payify\Managers\PayifyManager;
+use DevWizard\Payify\Models\Transaction;
+use Illuminate\Console\Command;
+
+use function Laravel\Prompts\error;
+use function Laravel\Prompts\spin;
+use function Laravel\Prompts\table;
+
+class RefundStatusCommand extends Command
+{
+    protected $signature = 'payify:refund:status {transaction_id}';
+
+    protected $description = 'Query a stored refund reference against its provider (providers that support it)';
+
+    public function handle(PayifyManager $manager): int
+    {
+        $txn = Transaction::find((string) $this->argument('transaction_id'));
+        if (! $txn) {
+            error('Transaction not found.');
+
+            return self::FAILURE;
+        }
+
+        $refundRefId = data_get($txn->response_payload, 'refund.refund_ref_id');
+
+        if (! $refundRefId) {
+            error('No refund_ref_id stored on this transaction.');
+
+            return self::FAILURE;
+        }
+
+        $driver = $manager->provider($txn->provider);
+
+        if (! $driver instanceof SupportsRefundQuery) {
+            error("Provider [{$txn->provider}] does not support refund status queries.");
+
+            return self::FAILURE;
+        }
+
+        $result = spin(fn () => $driver->queryRefund($refundRefId), 'Querying refund status...');
+
+        table(
+            headers: ['Refund Ref', 'Status'],
+            rows: [[$refundRefId, $result['status'] ?? 'unknown']],
+        );
+
+        return self::SUCCESS;
+    }
+}

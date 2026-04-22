@@ -1,0 +1,10 @@
+{
+    "statusCode": "0000",
+    "statusMessage": "Successful",
+    "paymentID": "TR0011sandbox456",
+    "transactionStatus": "Initiated",
+    "amount": "50.00",
+    "currency": "BDT",
+    "intent": "sale",
+    "merchantInvoiceNumber": "INV-2"
+}

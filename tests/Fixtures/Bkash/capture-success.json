@@ -1,0 +1,9 @@
+{
+    "statusCode": "0000",
+    "statusMessage": "Successful",
+    "paymentID": "TR0011sandbox789",
+    "trxID": "CAP123",
+    "transactionStatus": "Completed",
+    "amount": "100.50",
+    "currency": "BDT"
+}

@@ -1,0 +1,19 @@
+{
+    "status": "SUCCESS",
+    "failedreason": "",
+    "sessionkey": "F1B7F4E31C43A87F3F6B5F1B3D7A8C9D",
+    "GatewayPageURL": "https://sandbox.sslcommerz.com/EasyCheckOut/testcde13fab3d20d4bc05f8b8d3c8e6a2b",
+    "storeBanner": "",
+    "storeLogo": "",
+    "store_name": "testbox",
+    "desc": [
+        {"name": "VISA", "type": "VISA", "logo": "", "gw": "visacard", "redirectGatewayURL": "https://sandbox.sslcommerz.com/redirect/visa/..."},
+        {"name": "MasterCard", "type": "MASTER", "logo": "", "gw": "mastercard", "redirectGatewayURL": "https://sandbox.sslcommerz.com/redirect/mc/..."},
+        {"name": "bKash", "type": "MOBILEBANKING", "logo": "", "gw": "bkash", "redirectGatewayURL": "https://sandbox.sslcommerz.com/redirect/bkash/..."}
+    ],
+    "gw": {
+        "visa": "visacard",
+        "master": "mastercard",
+        "bkash": "bkash"
+    }
+}

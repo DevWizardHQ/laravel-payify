@@ -1,0 +1,15 @@
+{
+    "statusCode": "0000",
+    "statusMessage": "Successful",
+    "paymentID": "TR0011sandbox123",
+    "bkashURL": "https://sandbox.payment.bkash.com/?paymentId=TR0011sandbox123&hash=abc&mode=0011&apiVersion=v1.2.0-beta",
+    "callbackURL": "https://app.test/payify/callback/bkash/success",
+    "successCallbackURL": "https://app.test/payify/callback/bkash/success?paymentID=TR0011sandbox123&status=success",
+    "failureCallbackURL": "https://app.test/payify/callback/bkash/failure?paymentID=TR0011sandbox123&status=failure",
+    "cancelledCallbackURL": "https://app.test/payify/callback/bkash/cancel?paymentID=TR0011sandbox123&status=cancel",
+    "amount": "100.50",
+    "currency": "BDT",
+    "intent": "sale",
+    "merchantInvoiceNumber": "INV-1",
+    "transactionStatus": "Initiated"
+}

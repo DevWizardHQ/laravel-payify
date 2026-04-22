@@ -1,0 +1,9 @@
+{
+    "APIConnect": "DONE",
+    "bank_tran_id": "BT-CANCEL",
+    "trans_id": "INV-RC",
+    "refund_ref_id": "REF-RC-1",
+    "status": "cancelled",
+    "initiated_on": "2026-04-22 14:00:00",
+    "cancelled_on": "2026-04-22 14:30:00"
+}

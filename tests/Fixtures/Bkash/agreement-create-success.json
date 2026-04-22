@@ -1,0 +1,11 @@
+{
+    "statusCode": "0000",
+    "statusMessage": "Successful",
+    "paymentID": "AGR-INIT-123",
+    "bkashURL": "https://sandbox.payment.bkash.com/?paymentId=AGR-INIT-123&hash=abc&mode=0000&apiVersion=v1.2.0-beta",
+    "callbackURL": "https://app.test/payify/callback/bkash/success",
+    "amount": "1.00",
+    "currency": "BDT",
+    "intent": "sale",
+    "transactionStatus": "Initiated"
+}

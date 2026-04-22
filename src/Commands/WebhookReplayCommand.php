@@ -8,6 +8,10 @@ use DevWizard\Payify\Http\Controllers\WebhookController;
 use DevWizard\Payify\Models\Transaction;
 use Illuminate\Console\Command;
 
+use function Laravel\Prompts\error;
+use function Laravel\Prompts\info;
+use function Laravel\Prompts\spin;
+
 class WebhookReplayCommand extends Command
 {
     protected $signature = 'payify:webhook:replay {transaction_id}';
@@ -16,18 +20,22 @@ class WebhookReplayCommand extends Command
 
     public function handle(): int
     {
-        $txn = Transaction::find($this->argument('transaction_id'));
+        $txn = Transaction::find((string) $this->argument('transaction_id'));
 
         if (! $txn) {
-            $this->error('Transaction not found.');
+            error('Transaction not found.');
 
             return self::FAILURE;
         }
 
         if (empty($txn->webhook_payload)) {
-            $this->error('No stored webhook payload for this transaction.');
+            error('No stored webhook payload for this transaction.');
 
             return self::FAILURE;
+        }
+
+        if (! $this->confirm("Replay webhook for transaction {$txn->id}?", false)) {
+            return self::SUCCESS;
         }
 
         $raw = $txn->webhook_payload;
@@ -43,11 +51,13 @@ class WebhookReplayCommand extends Command
             verified: $txn->webhook_verified_at !== null,
         );
 
-        WebhookController::applyStatusTransition($txn, $payload);
-        $txn->refresh();
+        spin(function () use ($txn, $payload) {
+            WebhookController::applyStatusTransition($txn, $payload);
+            $txn->refresh();
+            event(new WebhookReceived($payload, $txn));
+        }, 'Replaying webhook...');
 
-        event(new WebhookReceived($payload, $txn));
-        $this->info("Replayed webhook for transaction {$txn->id}.");
+        info("Replayed webhook for transaction {$txn->id}.");
 
         return self::SUCCESS;
     }

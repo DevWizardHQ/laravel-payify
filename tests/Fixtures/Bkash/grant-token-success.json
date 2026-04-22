@@ -1,0 +1,8 @@
+{
+    "statusCode": "0000",
+    "statusMessage": "Successful",
+    "id_token": "ey.test.idtoken",
+    "refresh_token": "refresh.test.token",
+    "expires_in": 3600,
+    "token_type": "Bearer"
+}

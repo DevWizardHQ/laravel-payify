@@ -1,0 +1,10 @@
+{
+    "statusCode": "0000",
+    "statusMessage": "Successful",
+    "payoutID": "PO_INIT_123",
+    "trxID": "PO_TRX_456",
+    "amount": "5000.00",
+    "currency": "BDT",
+    "receiverMSISDN": "01712345678",
+    "transactionStatus": "Completed"
+}

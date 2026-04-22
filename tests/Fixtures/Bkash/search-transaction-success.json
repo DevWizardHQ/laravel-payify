@@ -1,0 +1,12 @@
+{
+    "statusCode": "0000",
+    "statusMessage": "Successful",
+    "amount": "100.50",
+    "completedTime": "2026-04-22T12:34:56:789 GMT+0600",
+    "customerMsisdn": "01700000000",
+    "organizationShortCode": "BKASH",
+    "transactionReference": "INV-1",
+    "transactionStatus": "Completed",
+    "transactionType": "MERCHANT_PAYMENT_GW",
+    "trxID": "ABC123XYZ"
+}

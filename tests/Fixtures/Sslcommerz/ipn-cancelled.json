@@ -1,0 +1,9 @@
+{
+    "status": "CANCELLED",
+    "tran_id": "INV-CANCEL",
+    "val_id": "VAL-CANCEL",
+    "amount": "0.00",
+    "currency": "BDT",
+    "verify_sign": "placeholder",
+    "verify_key": "tran_id,amount"
+}

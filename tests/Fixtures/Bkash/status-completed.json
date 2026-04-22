@@ -1,0 +1,17 @@
+{
+    "statusCode": "0000",
+    "statusMessage": "Successful",
+    "paymentID": "TR0011sandbox123",
+    "mode": "0011",
+    "agreementID": null,
+    "payerReference": "01700000000",
+    "paymentCreateTime": "2026-04-22T12:30:00:000 GMT+0600",
+    "paymentExecuteTime": "2026-04-22T12:34:56:789 GMT+0600",
+    "trxID": "ABC123XYZ",
+    "transactionStatus": "Completed",
+    "amount": "100.50",
+    "currency": "BDT",
+    "intent": "sale",
+    "merchantInvoiceNumber": "INV-1",
+    "userVerificationStatus": "Complete"
+}

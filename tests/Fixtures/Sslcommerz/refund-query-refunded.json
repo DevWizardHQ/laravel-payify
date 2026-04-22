@@ -1,0 +1,9 @@
+{
+    "APIConnect": "DONE",
+    "bank_tran_id": "151114130739GjJYaOhM5j3pGP4",
+    "trans_id": "INV-SSL-1",
+    "refund_ref_id": "REF-INV-SSL-1-20260422",
+    "status": "refunded",
+    "initiated_on": "2026-04-22 13:00:00",
+    "refunded_on": "2026-04-22 13:30:00"
+}
