@@ -20,6 +20,6 @@ it('handles zero-decimal currencies (JPY)', function () {
     expect(AmountFormatter::toMajor(1000, 'JPY'))->toBe(1000.0);
 });
 
-it('rounds bankers-half to even', function () {
+it('rounds half up when converting to minor units', function () {
     expect(AmountFormatter::toMinor(1.005, 'BDT'))->toBe(101);
 });

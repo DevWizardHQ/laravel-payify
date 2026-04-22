@@ -11,6 +11,7 @@ use DevWizard\Payify\Events\PaymentFailed;
 use DevWizard\Payify\Events\PaymentRefunded;
 use DevWizard\Payify\Events\PaymentSucceeded;
 use DevWizard\Payify\Events\WebhookReceived;
+use DevWizard\Payify\Exceptions\ProviderNotFoundException;
 use DevWizard\Payify\Exceptions\WebhookVerificationException;
 use DevWizard\Payify\Jobs\ProcessWebhookJob;
 use DevWizard\Payify\Managers\PayifyManager;
@@ -23,7 +24,16 @@ class WebhookController
 {
     public function __invoke(Request $request, string $provider, PayifyManager $manager): Response
     {
-        $driver = $manager->provider($provider);
+        try {
+            $driver = $manager->provider($provider);
+        } catch (ProviderNotFoundException $e) {
+            $this->log()->warning('payify.webhook.unknown_provider', [
+                'provider' => $provider,
+                'message' => $e->getMessage(),
+            ]);
+
+            return response('unknown provider', 400);
+        }
 
         if (! $driver instanceof HandlesWebhook) {
             $this->log()->warning('payify.webhook.unsupported', ['provider' => $provider]);

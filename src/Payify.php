@@ -11,6 +11,10 @@ class Payify
 
     public static function routes(array $options = []): void
     {
+        if (self::$routesOverridden) {
+            return;
+        }
+
         self::$routesOverridden = true;
 
         $group = array_filter([

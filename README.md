@@ -46,9 +46,9 @@ Register the generated class in `config/payify.php` under `providers.razorpay`.
 ## Testing
 
 ```php
-Payify::fake();
+$fake = Payify::fake();
 Payify::driver('bkash')->amount(100)->invoice('INV-1')->pay();
-Payify::assertPaid(fn ($txn) => $txn->reference === 'INV-1');
+$fake->assertPaid(fn ($txn) => $txn->reference === 'INV-1');
 ```
 
 ## Commands

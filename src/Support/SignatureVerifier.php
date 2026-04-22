@@ -27,8 +27,9 @@ class SignatureVerifier
     public static function base64UrlDecode(string $data): string
     {
         $padded = str_pad($data, strlen($data) + (4 - strlen($data) % 4) % 4, '=');
+        $decoded = base64_decode(strtr($padded, '-_', '+/'), true);
 
-        return base64_decode(strtr($padded, '-_', '+/'));
+        return $decoded === false ? '' : $decoded;
     }
 
     public static function verifyRsa(string $payload, string $signature, string $publicKeyPem): bool
