@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -32,19 +33,19 @@ use Illuminate\Support\Facades\DB;
  * @property string|null $error_message
  * @property string $refunded_amount
  * @property array<string,mixed>|null $webhook_payload
- * @property \Illuminate\Support\Carbon|null $webhook_verified_at
- * @property \Illuminate\Support\Carbon|null $paid_at
- * @property \Illuminate\Support\Carbon|null $failed_at
- * @property \Illuminate\Support\Carbon|null $refunded_at
- * @property \Illuminate\Support\Carbon|null $expires_at
- * @property \Illuminate\Support\Carbon|null $authorized_at
- * @property \Illuminate\Support\Carbon|null $captured_at
- * @property \Illuminate\Support\Carbon|null $voided_at
+ * @property Carbon|null $webhook_verified_at
+ * @property Carbon|null $paid_at
+ * @property Carbon|null $failed_at
+ * @property Carbon|null $refunded_at
+ * @property Carbon|null $expires_at
+ * @property Carbon|null $authorized_at
+ * @property Carbon|null $captured_at
+ * @property Carbon|null $voided_at
  * @property string|null $payable_type
  * @property string|null $payable_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
  */
 class Transaction extends Model
 {
