@@ -7,10 +7,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static \DevWizard\Payify\Builders\PaymentBuilder driver(?string $name = null)
- * @method static \DevWizard\Payify\Contracts\PaymentProvider provider(string $name)
- * @method static \DevWizard\Payify\Dto\PaymentResponse pay(array $data = [])
- * @method static \DevWizard\Payify\Dto\RefundResponse refund(array $data = [])
- * @method static \DevWizard\Payify\Dto\StatusResponse status(array $data = [])
+ * @method static \DevWizard\Payify\Contracts\PaymentProvider provider(?string $name = null)
  * @method static \DevWizard\Payify\Managers\PayifyManager extend(string $name, \Closure $closure)
  * @method static \DevWizard\Payify\Testing\PayifyFake fake(array|string $providers = [])
  *

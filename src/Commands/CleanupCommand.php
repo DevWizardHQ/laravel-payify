@@ -39,17 +39,20 @@ class CleanupCommand extends Command
         $query = Transaction::where('status', $status->value)
             ->where('created_at', '<', $cutoff);
 
-        $count = $query->count();
-
         if ($this->option('dry-run')) {
+            $count = $query->count();
             $this->info("Dry run: would delete {$count} {$status->value} transactions older than {$days} days.");
 
             return self::SUCCESS;
         }
 
-        $query->chunkById(200, fn ($rows) => $rows->each->delete());
+        $deleted = 0;
+        $query->chunkById(200, function ($rows) use (&$deleted) {
+            $rows->each->delete();
+            $deleted += $rows->count();
+        });
 
-        $this->info("Deleted {$count} {$status->value} transactions older than {$days} days.");
+        $this->info("Deleted {$deleted} {$status->value} transactions older than {$days} days.");
 
         return self::SUCCESS;
     }

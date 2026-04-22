@@ -349,25 +349,13 @@ parameters:
 			path: src/Facades/Payify.php
 
 		-
-			message: '#^Class DevWizard\\Payify\\Facades\\Payify has PHPDoc tag @method for method pay\(\) parameter \#1 \$data with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Facades/Payify.php
-
-		-
-			message: '#^Class DevWizard\\Payify\\Facades\\Payify has PHPDoc tag @method for method refund\(\) parameter \#1 \$data with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Facades/Payify.php
-
-		-
-			message: '#^Class DevWizard\\Payify\\Facades\\Payify has PHPDoc tag @method for method status\(\) parameter \#1 \$data with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Facades/Payify.php
-
-		-
 			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$amount\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/WebhookController.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$status\.$#'
 			identifier: property.notFound
 			count: 1
 			path: src/Http/Controllers/WebhookController.php

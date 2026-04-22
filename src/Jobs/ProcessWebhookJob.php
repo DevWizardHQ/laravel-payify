@@ -4,6 +4,7 @@ namespace DevWizard\Payify\Jobs;
 
 use DevWizard\Payify\Dto\WebhookPayload;
 use DevWizard\Payify\Events\WebhookReceived;
+use DevWizard\Payify\Http\Controllers\WebhookController;
 use DevWizard\Payify\Models\Transaction;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -18,9 +19,9 @@ class ProcessWebhookJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public int $tries;
+    public int $tries = 3;
 
-    public int $backoff;
+    public int $backoff = 10;
 
     public function __construct(
         public WebhookPayload $payload,
@@ -33,6 +34,12 @@ class ProcessWebhookJob implements ShouldQueue
     public function handle(): void
     {
         $txn = $this->transactionId ? Transaction::find($this->transactionId) : null;
+
+        if ($txn) {
+            WebhookController::applyStatusTransition($txn, $this->payload);
+            $txn->refresh();
+        }
+
         event(new WebhookReceived($this->payload, $txn));
     }
 }

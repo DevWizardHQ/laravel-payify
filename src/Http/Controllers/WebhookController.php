@@ -5,6 +5,7 @@ namespace DevWizard\Payify\Http\Controllers;
 use DevWizard\Payify\Contracts\HandlesWebhook;
 use DevWizard\Payify\Dto\RefundResponse;
 use DevWizard\Payify\Dto\WebhookPayload;
+use DevWizard\Payify\Enums\TransactionStatus;
 use DevWizard\Payify\Events\PaymentCancelled;
 use DevWizard\Payify\Events\PaymentFailed;
 use DevWizard\Payify\Events\PaymentRefunded;
@@ -52,17 +53,35 @@ class WebhookController
                 'webhook_verified_at' => now(),
                 'provider_transaction_id' => $txn->provider_transaction_id ?? $payload->providerTransactionId,
             ]);
-
-            $this->applyStatusTransition($txn, $payload);
         }
 
-        $this->dispatch($payload, $txn);
+        $queue = config('payify.webhooks.queue');
+
+        if ($queue) {
+            ProcessWebhookJob::dispatch($payload, $txn?->id)->onQueue($queue);
+
+            return response('ok', 200);
+        }
+
+        if ($txn) {
+            self::applyStatusTransition($txn, $payload);
+        }
+
+        event(new WebhookReceived($payload, $txn));
 
         return response('ok', 200);
     }
 
-    protected function applyStatusTransition(Transaction $txn, WebhookPayload $payload): void
+    public static function applyStatusTransition(Transaction $txn, WebhookPayload $payload): void
     {
+        if ($payload->event === 'payment.refunded') {
+            if (! $txn->canRefund()) {
+                return;
+            }
+        } elseif ($txn->status instanceof TransactionStatus && $txn->status->isTerminal()) {
+            return;
+        }
+
         $code = $payload->raw['error_code'] ?? 'PROVIDER_FAILURE';
         $message = $payload->raw['error_message'] ?? 'Payment failed';
 
@@ -78,26 +97,13 @@ class WebhookController
             'payment.succeeded' => new PaymentSucceeded($txn->fresh()),
             'payment.failed' => new PaymentFailed($txn->fresh(), $code, $message),
             'payment.cancelled' => new PaymentCancelled($txn->fresh()),
-            'payment.refunded' => new PaymentRefunded($txn->fresh(), RefundResponse::fromWebhook($payload)),
+            'payment.refunded' => new PaymentRefunded($txn->fresh(), RefundResponse::fromWebhook($payload, $txn->id)),
             default => null,
         };
 
         if ($event) {
             event($event);
         }
-    }
-
-    protected function dispatch(WebhookPayload $payload, ?Transaction $txn): void
-    {
-        $queue = config('payify.webhooks.queue');
-
-        if ($queue) {
-            ProcessWebhookJob::dispatch($payload, $txn?->id)->onQueue($queue);
-
-            return;
-        }
-
-        event(new WebhookReceived($payload, $txn));
     }
 
     private function log()

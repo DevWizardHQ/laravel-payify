@@ -4,6 +4,7 @@ namespace DevWizard\Payify\Commands;
 
 use DevWizard\Payify\Dto\WebhookPayload;
 use DevWizard\Payify\Events\WebhookReceived;
+use DevWizard\Payify\Http\Controllers\WebhookController;
 use DevWizard\Payify\Models\Transaction;
 use Illuminate\Console\Command;
 
@@ -41,6 +42,9 @@ class WebhookReplayCommand extends Command
             raw: $raw,
             verified: $txn->webhook_verified_at !== null,
         );
+
+        WebhookController::applyStatusTransition($txn, $payload);
+        $txn->refresh();
 
         event(new WebhookReceived($payload, $txn));
         $this->info("Replayed webhook for transaction {$txn->id}.");

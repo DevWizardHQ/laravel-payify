@@ -5,6 +5,7 @@ namespace DevWizard\Payify\Http\Middleware;
 use GuzzleHttp\Promise\Create;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
 
 class LoggingMiddleware
@@ -46,12 +47,10 @@ class LoggingMiddleware
         ];
 
         if ($this->logBodies) {
-            $context['request_body'] = $this->decodeMasked((string) $req->getBody());
+            $context['request_body'] = $this->readBody($req->getBody());
             if ($res) {
-                $context['response_body'] = $this->decodeMasked((string) $res->getBody());
-                $res->getBody()->rewind();
+                $context['response_body'] = $this->readBody($res->getBody());
             }
-            $req->getBody()->rewind();
         }
 
         if ($error) {
@@ -65,6 +64,19 @@ class LoggingMiddleware
     private function flattenHeaders(array $headers): array
     {
         return array_map(fn ($v) => is_array($v) ? implode(', ', $v) : $v, $headers);
+    }
+
+    private function readBody(StreamInterface $stream): mixed
+    {
+        if (! $stream->isSeekable()) {
+            return '[non-seekable stream]';
+        }
+
+        $stream->rewind();
+        $body = (string) $stream;
+        $stream->rewind();
+
+        return $this->decodeMasked($body);
     }
 
     private function decodeMasked(string $body): mixed

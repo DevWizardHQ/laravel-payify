@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Transaction extends Model
 {
@@ -88,17 +89,24 @@ class Transaction extends Model
 
     public function markRefunded(float $amount, array $raw = []): void
     {
-        $newTotal = (float) $this->refunded_amount + $amount;
-        $status = $newTotal >= (float) $this->amount
-            ? TransactionStatus::Refunded
-            : TransactionStatus::PartiallyRefunded;
+        DB::transaction(function () use ($amount, $raw) {
+            /** @var static $fresh */
+            $fresh = static::query()->whereKey($this->getKey())->lockForUpdate()->firstOrFail();
 
-        $this->update([
-            'status' => $status,
-            'refunded_amount' => $newTotal,
-            'response_payload' => $raw ?: $this->response_payload,
-            'refunded_at' => now(),
-        ]);
+            $newTotal = (float) $fresh->refunded_amount + $amount;
+            $status = $newTotal >= (float) $fresh->amount
+                ? TransactionStatus::Refunded
+                : TransactionStatus::PartiallyRefunded;
+
+            $fresh->update([
+                'status' => $status,
+                'refunded_amount' => $newTotal,
+                'response_payload' => $raw ?: $fresh->response_payload,
+                'refunded_at' => now(),
+            ]);
+
+            $this->setRawAttributes($fresh->getAttributes(), true);
+        });
     }
 
     public function refreshFromStatus(StatusResponse $status): void
