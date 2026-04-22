@@ -3,6 +3,7 @@
 use DevWizard\Payify\Contracts\SupportsRefundQuery;
 use DevWizard\Payify\Enums\TransactionStatus;
 use DevWizard\Payify\Models\Transaction;
+use DevWizard\Payify\Providers\Sslcommerz\SslcommerzDriver;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -24,6 +25,6 @@ it('RefundStatusCommand uses SupportsRefundQuery contract not method_exists', fu
 });
 
 it('SslcommerzDriver implements SupportsRefundQuery', function () {
-    expect(\DevWizard\Payify\Providers\Sslcommerz\SslcommerzDriver::class)
+    expect(SslcommerzDriver::class)
         ->toImplement(SupportsRefundQuery::class);
 });

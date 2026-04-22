@@ -4,6 +4,7 @@ use DevWizard\Payify\Dto\Customer;
 use DevWizard\Payify\Dto\PaymentRequest;
 use DevWizard\Payify\Events\AgreementCancelled;
 use DevWizard\Payify\Models\Agreement;
+use DevWizard\Payify\Models\Transaction;
 use DevWizard\Payify\Tests\Fixtures\FixtureLoader;
 use GuzzleHttp\Handler\MockHandler;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -27,7 +28,7 @@ it('tokenize() records a transaction so the agreement callback can resolve it', 
 
     $driver->tokenize(new Customer(phone: '01700000000'));
 
-    $txn = \DevWizard\Payify\Models\Transaction::where('provider', 'bkash')
+    $txn = Transaction::where('provider', 'bkash')
         ->where('provider_transaction_id', 'AGR-INIT-123')
         ->first();
 
