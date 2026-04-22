@@ -74,7 +74,14 @@ class SslcommerzPayloadBuilder
             return '';
         }
 
-        if (! str_contains($base, $kind)) {
+        // Accept either a path segment that matches the kind
+        // (e.g. `/callback/sslcommerz/success`) or an explicit
+        // `status=<kind>` query; otherwise append `status=<kind>`.
+        $path = parse_url($base, PHP_URL_PATH) ?: '';
+        $pathMatchesKind = str_ends_with($path, '/'.$kind);
+        $queryMatchesKind = str_contains($base, 'status='.$kind);
+
+        if (! $pathMatchesKind && ! $queryMatchesKind) {
             $separator = str_contains($base, '?') ? '&' : '?';
 
             return $base.$separator.'status='.$kind;

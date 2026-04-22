@@ -183,35 +183,31 @@ class SslcommerzDriver extends AbstractDriver implements HandlesWebhook, Support
         $refundStatus = (string) ($response['status'] ?? 'processing');
         $refundRefId = (string) ($response['refund_ref_id'] ?? '');
 
+        // Build merged payload once; markRefunded will persist it if we call it below.
         $payload = $txn->response_payload ?? [];
         $payload['refund'] = [
             'refund_ref_id' => $refundRefId,
             'refund_trans_id' => $refundTransId,
             'status' => $refundStatus,
         ];
-        $txn->response_payload = $payload;
-        $txn->save();
 
         if ($refundStatus === Constants::REFUND_STATUS_REFUNDED) {
-            $txn->markRefunded($amount, $response);
-        } elseif ($refundStatus === Constants::REFUND_STATUS_PROCESSING) {
-            $txn->markRefunded($amount, $response);
-        }
-
-        // Ensure refund_ref_id is preserved in response_payload even after markRefunded
-        $fresh = $txn->fresh();
-        $freshPayload = $fresh->response_payload ?? [];
-        if (! isset($freshPayload['refund'])) {
-            $freshPayload['refund'] = $payload['refund'];
-            $fresh->response_payload = $freshPayload;
-            $fresh->save();
+            // Bank confirmed the refund; flip transaction state.
+            $txn->markRefunded($amount, $payload);
+            $status = $txn->fresh()->status;
+        } else {
+            // Processing / unknown: persist refund_ref_id but keep transaction in its
+            // current state. Merchants can poll via `payify:refund:status` to confirm.
+            $txn->response_payload = $payload;
+            $txn->save();
+            $status = $txn->fresh()->status;
         }
 
         $refundResponse = new RefundResponse(
             transactionId: $txn->id,
             refundId: $refundRefId,
             amount: $amount,
-            status: $txn->fresh()->status,
+            status: $status,
             raw: $response,
         );
 
@@ -261,6 +257,13 @@ class SslcommerzDriver extends AbstractDriver implements HandlesWebhook, Support
     public function embedAttributes(PaymentRequest $request): array
     {
         $postdata = $this->payloadBuilder->build($request);
+
+        // Strip merchant secrets before exposing to browser.
+        // SSLCommerz's embed widget accepts only non-credential fields here;
+        // the actual init call runs server-side when rendering the page.
+        foreach (['store_passwd', 'store_id'] as $secret) {
+            unset($postdata[$secret]);
+        }
 
         return [
             'data-sslcommerz' => 'checkout',
