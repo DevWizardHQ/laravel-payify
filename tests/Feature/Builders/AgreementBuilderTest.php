@@ -8,6 +8,7 @@ use DevWizard\Payify\Dto\Customer;
 use DevWizard\Payify\Dto\PaymentRequest;
 use DevWizard\Payify\Dto\PaymentResponse;
 use DevWizard\Payify\Dto\StatusResponse;
+use DevWizard\Payify\Dto\TokenResponse;
 use DevWizard\Payify\Enums\TransactionStatus;
 use DevWizard\Payify\Exceptions\UnsupportedOperationException;
 use DevWizard\Payify\Models\Transaction;
@@ -75,7 +76,7 @@ it('returns AgreementBuilder when driver supports tokenization', function () {
             throw new LogicException;
         }
 
-        public function tokenize(Customer $customer): \DevWizard\Payify\Dto\TokenResponse
+        public function tokenize(Customer $customer): TokenResponse
         {
             throw new LogicException;
         }
@@ -127,7 +128,7 @@ it('cancels a known agreement via detokenize', function () {
             throw new LogicException;
         }
 
-        public function tokenize(Customer $customer): \DevWizard\Payify\Dto\TokenResponse
+        public function tokenize(Customer $customer): TokenResponse
         {
             throw new LogicException;
         }
