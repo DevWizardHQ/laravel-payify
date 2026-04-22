@@ -1,6 +1,7 @@
 <?php
 
 use DevWizard\Payify\Dto\Customer;
+use DevWizard\Payify\Dto\LineItem;
 use DevWizard\Payify\Dto\PaymentRequest;
 
 it('stores all fields', function () {
@@ -74,4 +75,45 @@ it('exports to array', function () {
     expect($out['currency'])->toBe('BDT');
     expect($out['reference'])->toBe('r');
     expect($out['customer'])->toBeNull();
+});
+
+it('supports phase 2 fields', function () {
+    $req = new PaymentRequest(
+        amount: 100, currency: 'BDT', reference: 'r',
+        intent: 'authorization',
+        productCategory: 'books',
+        productName: 'Laravel Guide',
+        productProfile: 'general',
+        gateway: 'visacard',
+        emiOption: '1',
+        emiMaxInstallments: 12,
+        lineItems: [new LineItem(name: 'Book', price: 100)],
+    );
+
+    expect($req->intent)->toBe('authorization');
+    expect($req->productCategory)->toBe('books');
+    expect($req->gateway)->toBe('visacard');
+    expect($req->emiOption)->toBe('1');
+    expect($req->emiMaxInstallments)->toBe(12);
+    expect($req->lineItems)->toHaveCount(1);
+});
+
+it('fromArray parses lineItems from assoc arrays', function () {
+    $req = PaymentRequest::fromArray([
+        'amount' => 10, 'currency' => 'BDT', 'reference' => 'r',
+        'lineItems' => [
+            ['name' => 'X', 'price' => 5, 'quantity' => 2],
+        ],
+    ]);
+    expect($req->lineItems)->toHaveCount(1);
+    expect($req->lineItems[0])->toBeInstanceOf(LineItem::class);
+    expect($req->lineItems[0]->price)->toBe(5.0);
+});
+
+it('fromArray accepts line_items snake_case alias', function () {
+    $req = PaymentRequest::fromArray([
+        'amount' => 10, 'currency' => 'BDT', 'reference' => 'r',
+        'line_items' => [['name' => 'Y', 'price' => 2]],
+    ]);
+    expect($req->lineItems)->toHaveCount(1);
 });
