@@ -1,0 +1,8 @@
+{
+    "APIConnect": "DONE",
+    "bank_tran_id": "BT-IN-PROCESS",
+    "trans_id": "INV-RP",
+    "refund_ref_id": "REF-RP-1",
+    "status": "processing",
+    "initiated_on": "2026-04-22 14:00:00"
+}
