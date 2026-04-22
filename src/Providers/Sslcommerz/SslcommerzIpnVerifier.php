@@ -48,11 +48,33 @@ class SslcommerzIpnVerifier
             throw new WebhookVerificationException('Missing verify_sign/verify_key', reason: 'missing_fields');
         }
 
-        $fields = explode(',', (string) $verifyKey);
-        $concat = collect($fields)->map(fn ($f) => (string) $request->input(trim($f), ''))->implode('|');
-        $expected = md5($concat.md5((string) ($this->config['credentials']['store_passwd'] ?? '')));
+        // SSLCommerz IPN hash per official SDK (lib/SslCommerzNotification.php::SSLCOMMERZ_hash_verify):
+        //   1. Parse comma-separated field names from verify_key
+        //   2. Pull corresponding posted values into an assoc map
+        //   3. Add 'store_passwd' => md5(store_passwd)
+        //   4. ksort alphabetically
+        //   5. Build querystring key=value&key=value (no trailing &)
+        //   6. md5(string) must equal verify_sign
+        $fields = array_map('trim', explode(',', (string) $verifyKey));
 
-        if (! hash_equals($expected, strtolower((string) $verifySign))) {
+        $data = [];
+        foreach ($fields as $field) {
+            if ($field === '') {
+                continue;
+            }
+            $data[$field] = (string) $request->input($field, '');
+        }
+        $data['store_passwd'] = md5((string) ($this->config['credentials']['store_passwd'] ?? ''));
+
+        ksort($data);
+
+        $hashString = '';
+        foreach ($data as $key => $value) {
+            $hashString .= $key.'='.$value.'&';
+        }
+        $hashString = rtrim($hashString, '&');
+
+        if (! hash_equals(md5($hashString), strtolower((string) $verifySign))) {
             throw new WebhookVerificationException('IPN signature mismatch', reason: 'signature_mismatch');
         }
     }

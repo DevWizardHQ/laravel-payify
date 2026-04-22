@@ -60,21 +60,30 @@ it('rejects on signature mismatch', function () {
     expect(fn () => $verifier->verify($request))->toThrow(WebhookVerificationException::class);
 });
 
-it('accepts verified signed payload', function () {
+it('accepts verified signed payload using official SSLCommerz algorithm', function () {
     $verifier = sslIpnVerifier([
         'verify_ip' => false,
         'verify_signature' => true,
         'verify_validator' => false,
     ]);
 
-    $tranId = 'T-SIGN';
-    $amount = '100.00';
+    // Algorithm: ksort({fields from verify_key + store_passwd=md5(store_passwd)}),
+    // then md5('key1=v1&key2=v2&...').
     $storePasswd = 'qwerty';
-    $concat = $tranId.'|'.$amount;
-    $sign = md5($concat.md5($storePasswd));
+    $data = [
+        'amount' => '100.00',
+        'tran_id' => 'T-SIGN',
+        'store_passwd' => md5($storePasswd),
+    ];
+    ksort($data);
+    $hashString = '';
+    foreach ($data as $k => $v) {
+        $hashString .= $k.'='.$v.'&';
+    }
+    $sign = md5(rtrim($hashString, '&'));
 
     $request = Request::create('/w', 'POST', [
-        'tran_id' => $tranId, 'amount' => $amount, 'status' => 'VALID',
+        'tran_id' => 'T-SIGN', 'amount' => '100.00', 'status' => 'VALID',
         'verify_key' => 'tran_id,amount',
         'verify_sign' => $sign,
     ]);
