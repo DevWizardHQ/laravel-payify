@@ -1,0 +1,11 @@
+{
+    "statusCode": "0000",
+    "statusMessage": "Successful",
+    "completedTime": "2026-04-22T13:00:00:000 GMT+0600",
+    "transactionStatus": "Completed",
+    "originalTrxID": "ABC123XYZ",
+    "refundTrxID": "REF789",
+    "amount": "25.00",
+    "currency": "BDT",
+    "charge": "0.00"
+}
