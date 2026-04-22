@@ -1,0 +1,18 @@
+{
+    "status": "VALID",
+    "tran_id": "INV-SSL-1",
+    "val_id": "VAL123",
+    "bank_tran_id": "151114130739GjJYaOhM5j3pGP4",
+    "amount": "1000.00",
+    "store_amount": "975.00",
+    "currency_type": "BDT",
+    "currency": "BDT",
+    "card_type": "VISA-Dutch Bangla",
+    "card_brand": "VISA",
+    "card_issuer": "Dutch Bangla Bank Ltd.",
+    "card_no": "432149XXXXXX0667",
+    "card_issuer_country": "Bangladesh",
+    "card_issuer_country_code": "BD",
+    "risk_level": "0",
+    "risk_title": "Safe"
+}
