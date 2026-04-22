@@ -1,6 +1,8 @@
 <?php
 
+use DevWizard\Payify\Exceptions\AlreadyCompletedException;
 use DevWizard\Payify\Exceptions\InvalidCredentialsException;
+use DevWizard\Payify\Exceptions\IpNotAllowedException;
 use DevWizard\Payify\Exceptions\PayifyException;
 use DevWizard\Payify\Exceptions\PaymentFailedException;
 use DevWizard\Payify\Exceptions\ProviderNotFoundException;
@@ -36,4 +38,16 @@ it('payment failed carries provider code', function () {
 it('webhook verification exception stores reason', function () {
     $e = new WebhookVerificationException('bad sig', reason: 'hash_mismatch');
     expect($e->reason())->toBe('hash_mismatch');
+});
+
+it('already completed exception extends base', function () {
+    $e = new AlreadyCompletedException('already done');
+    expect($e)->toBeInstanceOf(PayifyException::class);
+    expect($e->getMessage())->toBe('already done');
+});
+
+it('ip not allowed exception extends webhook verification', function () {
+    $e = new IpNotAllowedException('10.0.0.1 not allowed');
+    expect($e)->toBeInstanceOf(WebhookVerificationException::class);
+    expect($e->getMessage())->toBe('10.0.0.1 not allowed');
 });

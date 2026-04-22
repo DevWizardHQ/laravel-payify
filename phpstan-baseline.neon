@@ -7,6 +7,12 @@ parameters:
 			path: config/payify.php
 
 		-
+			message: '#^Class DevWizard\\Payify\\Database\\Factories\\AgreementFactory extends generic class Illuminate\\Database\\Eloquent\\Factories\\Factory but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: database/factories/AgreementFactory.php
+
+		-
 			message: '#^Class DevWizard\\Payify\\Database\\Factories\\TransactionFactory extends generic class Illuminate\\Database\\Eloquent\\Factories\\Factory but does not specify its types\: TModel$#'
 			identifier: missingType.generics
 			count: 1
@@ -247,6 +253,24 @@ parameters:
 			path: src/Dto/Customer.php
 
 		-
+			message: '#^Method DevWizard\\Payify\\Dto\\LineItem\:\:__construct\(\) has parameter \$metadata with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Dto/LineItem.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Dto\\LineItem\:\:fromArray\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Dto/LineItem.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Dto\\LineItem\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Dto/LineItem.php
+
+		-
 			message: '#^Method DevWizard\\Payify\\Dto\\PaymentRequest\:\:__construct\(\) has parameter \$extras with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -311,6 +335,24 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Dto/PaymentResponse.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Dto\\PayoutRequest\:\:__construct\(\) has parameter \$extras with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Dto/PayoutRequest.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Dto\\PayoutRequest\:\:fromArray\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Dto/PayoutRequest.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Dto\\PayoutResponse\:\:__construct\(\) has parameter \$raw with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Dto/PayoutResponse.php
 
 		-
 			message: '#^Method DevWizard\\Payify\\Dto\\RefundRequest\:\:__construct\(\) has parameter \$extras with no value type specified in iterable type array\.$#'
@@ -511,15 +553,57 @@ parameters:
 			path: src/Managers/PayifyManager.php
 
 		-
-			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$amount\.$#'
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Agreement\:\:\$agreement_id\.$#'
+			identifier: property.notFound
+			count: 3
+			path: src/Models/Agreement.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Agreement\:\:\$provider\.$#'
+			identifier: property.notFound
+			count: 4
+			path: src/Models/Agreement.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Agreement\:\:\$status\.$#'
 			identifier: property.notFound
 			count: 2
+			path: src/Models/Agreement.php
+
+		-
+			message: '#^Class DevWizard\\Payify\\Models\\Agreement uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Models/Agreement.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Models\\Agreement\:\:charge\(\) has parameter \$extras with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Models/Agreement.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Models\\Agreement\:\:payable\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\MorphTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Models/Agreement.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$amount\.$#'
+			identifier: property.notFound
+			count: 3
+			path: src/Models/Transaction.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$provider\.$#'
+			identifier: property.notFound
+			count: 1
 			path: src/Models/Transaction.php
 
 		-
 			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$provider_transaction_id\.$#'
 			identifier: property.notFound
-			count: 2
+			count: 3
 			path: src/Models/Transaction.php
 
 		-
@@ -531,7 +615,7 @@ parameters:
 		-
 			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$response_payload\.$#'
 			identifier: property.notFound
-			count: 4
+			count: 7
 			path: src/Models/Transaction.php
 
 		-
@@ -547,7 +631,25 @@ parameters:
 			path: src/Models/Transaction.php
 
 		-
+			message: '#^Method DevWizard\\Payify\\Models\\Transaction\:\:agreement\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasOne does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Models/Transaction.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Models\\Transaction\:\:markAuthorized\(\) has parameter \$raw with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Models/Transaction.php
+
+		-
 			message: '#^Method DevWizard\\Payify\\Models\\Transaction\:\:markCancelled\(\) has parameter \$raw with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Models/Transaction.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Models\\Transaction\:\:markCaptured\(\) has parameter \$raw with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Models/Transaction.php
@@ -566,6 +668,12 @@ parameters:
 
 		-
 			message: '#^Method DevWizard\\Payify\\Models\\Transaction\:\:markSucceeded\(\) has parameter \$raw with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Models/Transaction.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Models\\Transaction\:\:markVoided\(\) has parameter \$raw with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Models/Transaction.php
