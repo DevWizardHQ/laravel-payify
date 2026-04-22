@@ -1,0 +1,115 @@
+<?php
+
+namespace {{ namespace }};
+
+use DevWizard\Payify\Contracts\HandlesWebhook;
+use DevWizard\Payify\Contracts\SupportsHostedCheckout;
+use DevWizard\Payify\Contracts\SupportsRefund;
+use DevWizard\Payify\Drivers\AbstractDriver;
+use DevWizard\Payify\Dto\PaymentRequest;
+use DevWizard\Payify\Dto\PaymentResponse;
+use DevWizard\Payify\Dto\RefundRequest;
+use DevWizard\Payify\Dto\RefundResponse;
+use DevWizard\Payify\Dto\StatusResponse;
+use DevWizard\Payify\Dto\WebhookPayload;
+use DevWizard\Payify\Enums\TransactionStatus;
+use DevWizard\Payify\Models\Transaction;
+use Illuminate\Http\Request;
+
+/**
+ * Register in config/payify.php:
+ *
+ *   'providers' => [
+ *       '{{ key }}' => [
+ *           'driver' => \{{ namespace }}\{{ class }}::class,
+ *           'mode' => env('{{ env_prefix }}_MODE', 'sandbox'),
+ *           'credentials' => [
+ *               'api_key' => env('{{ env_prefix }}_API_KEY'),
+ *           ],
+ *           'sandbox_url' => '',
+ *           'live_url' => '',
+ *       ],
+ *   ],
+ */
+class {{ class }} extends AbstractDriver implements SupportsRefund, SupportsHostedCheckout, HandlesWebhook
+{
+    public function name(): string
+    {
+        return '{{ key }}';
+    }
+
+    public function capabilities(): array
+    {
+        return [
+            'refund' => true,
+            'tokenization' => false,
+            'hosted_checkout' => true,
+            'direct_api' => false,
+            'webhook' => true,
+            'partial_refund' => true,
+            'currencies' => ['BDT'],
+        ];
+    }
+
+    protected function executePayment(PaymentRequest $req, Transaction $txn): PaymentResponse
+    {
+        // TODO: hit provider's checkout/create endpoint with $this->client
+        // and map the response into a PaymentResponse.
+        return new PaymentResponse(
+            transactionId: $txn->id,
+            providerTransactionId: null,
+            status: TransactionStatus::Processing,
+            amount: $req->amount,
+            currency: $req->currency,
+        );
+    }
+
+    protected function executeStatus(Transaction $txn): StatusResponse
+    {
+        // TODO: query provider for current status
+        return new StatusResponse(
+            transactionId: $txn->id,
+            status: $txn->status,
+        );
+    }
+
+    public function handleCallback(Request $request): PaymentResponse
+    {
+        // TODO: fetch transaction using request params and resolve final status
+        return new PaymentResponse(
+            transactionId: '',
+            providerTransactionId: null,
+            status: TransactionStatus::Pending,
+            amount: 0,
+            currency: config('payify.default_currency', 'BDT'),
+        );
+    }
+
+    public function refund(RefundRequest $request): RefundResponse
+    {
+        // TODO: hit refund endpoint
+        return new RefundResponse(
+            transactionId: $request->transactionId,
+            refundId: '',
+            amount: $request->amount ?? 0,
+            status: TransactionStatus::Refunded,
+        );
+    }
+
+    public function verifyWebhook(Request $request): WebhookPayload
+    {
+        // TODO: verify signature; throw WebhookVerificationException on mismatch.
+        // SECURITY: remove `verified: true` and implement real HMAC/RSA verification
+        // before deploying to production — accepting all webhooks is a security risk.
+        return new WebhookPayload(
+            provider: $this->name(),
+            event: (string) $request->input('event', ''),
+            providerTransactionId: $request->input('provider_transaction_id'),
+            reference: $request->input('reference'),
+            amount: $request->has('amount') ? (float) $request->input('amount') : null,
+            currency: $request->input('currency'),
+            raw: $request->all(),
+            verified: true,
+        );
+    }
+}

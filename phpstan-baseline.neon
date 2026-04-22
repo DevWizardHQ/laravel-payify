@@ -1,0 +1,613 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Called ''env'' outside of the config directory which returns null when the config is cached, use ''config''\.$#'
+			identifier: larastan.noEnvCallsOutsideOfConfig
+			count: 8
+			path: config/payify.php
+
+		-
+			message: '#^Class DevWizard\\Payify\\Database\\Factories\\TransactionFactory extends generic class Illuminate\\Database\\Eloquent\\Factories\\Factory but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: database/factories/TransactionFactory.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Builders\\PaymentBuilder\:\:customer\(\) has parameter \$meta with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Builders/PaymentBuilder.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Builders\\PaymentBuilder\:\:merged\(\) has parameter \$overrides with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Builders/PaymentBuilder.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Builders\\PaymentBuilder\:\:merged\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Builders/PaymentBuilder.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Builders\\PaymentBuilder\:\:metadata\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Builders/PaymentBuilder.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Builders\\PaymentBuilder\:\:pay\(\) has parameter \$overrides with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Builders/PaymentBuilder.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Builders\\PaymentBuilder\:\:refund\(\) has parameter \$overrides with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Builders/PaymentBuilder.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Builders\\PaymentBuilder\:\:status\(\) has parameter \$overrides with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Builders/PaymentBuilder.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Builders\\PaymentBuilder\:\:with\(\) has parameter \$extras with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Builders/PaymentBuilder.php
+
+		-
+			message: '#^Property DevWizard\\Payify\\Builders\\PaymentBuilder\:\:\$state type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Builders/PaymentBuilder.php
+
+		-
+			message: '#^Offset ''direct_api'' on array\{refund\: bool, tokenization\: bool, hosted_checkout\: bool, direct_api\: bool, webhook\: bool, partial_refund\: bool, currencies\: array\<string\>\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/Commands/ListProvidersCommand.php
+
+		-
+			message: '#^Offset ''hosted_checkout'' on array\{refund\: bool, tokenization\: bool, hosted_checkout\: bool, direct_api\: bool, webhook\: bool, partial_refund\: bool, currencies\: array\<string\>\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/Commands/ListProvidersCommand.php
+
+		-
+			message: '#^Offset ''refund'' on array\{refund\: bool, tokenization\: bool, hosted_checkout\: bool, direct_api\: bool, webhook\: bool, partial_refund\: bool, currencies\: array\<string\>\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/Commands/ListProvidersCommand.php
+
+		-
+			message: '#^Offset ''tokenization'' on array\{refund\: bool, tokenization\: bool, hosted_checkout\: bool, direct_api\: bool, webhook\: bool, partial_refund\: bool, currencies\: array\<string\>\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/Commands/ListProvidersCommand.php
+
+		-
+			message: '#^Offset ''webhook'' on array\{refund\: bool, tokenization\: bool, hosted_checkout\: bool, direct_api\: bool, webhook\: bool, partial_refund\: bool, currencies\: array\<string\>\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/Commands/ListProvidersCommand.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$provider\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Commands/RefundCommand.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Commands/RefundCommand.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$provider\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Commands/StatusCommand.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Commands/StatusCommand.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$amount\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Commands/WebhookReplayCommand.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$currency\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Commands/WebhookReplayCommand.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$provider\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Commands/WebhookReplayCommand.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$provider_transaction_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Commands/WebhookReplayCommand.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$reference\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Commands/WebhookReplayCommand.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\|Illuminate\\Database\\Eloquent\\Collection\<int, DevWizard\\Payify\\Models\\Transaction\>\:\:\$webhook_verified_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Commands/WebhookReplayCommand.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$amount\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Drivers/AbstractDriver.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$currency\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Drivers/AbstractDriver.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$provider_transaction_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Drivers/AbstractDriver.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$response_payload\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Drivers/AbstractDriver.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Drivers\\AbstractDriver\:\:__construct\(\) has parameter \$config with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Drivers/AbstractDriver.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Drivers\\AbstractDriver\:\:extractError\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Drivers/AbstractDriver.php
+
+		-
+			message: '#^Offset ''currencies'' on array\{refund\: bool, tokenization\: bool, hosted_checkout\: bool, direct_api\: bool, webhook\: bool, partial_refund\: bool, currencies\: array\<string\>\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/Drivers/AbstractDriver.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$amount\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Drivers/FakeDriver.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$provider_transaction_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Drivers/FakeDriver.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$refunded_amount\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Drivers/FakeDriver.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Drivers/FakeDriver.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Drivers\\FakeDriver\:\:canned\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Drivers/FakeDriver.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Dto\\Customer\:\:__construct\(\) has parameter \$metadata with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Dto/Customer.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Dto\\Customer\:\:fromArray\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Dto/Customer.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Dto\\Customer\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Dto/Customer.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Dto\\PaymentRequest\:\:__construct\(\) has parameter \$extras with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Dto/PaymentRequest.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Dto\\PaymentRequest\:\:__construct\(\) has parameter \$metadata with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Dto/PaymentRequest.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Dto\\PaymentRequest\:\:fromArray\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Dto/PaymentRequest.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Dto\\PaymentRequest\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Dto/PaymentRequest.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$amount\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Dto/PaymentResponse.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$currency\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Dto/PaymentResponse.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$error_code\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Dto/PaymentResponse.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$error_message\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Dto/PaymentResponse.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$provider_transaction_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Dto/PaymentResponse.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Dto/PaymentResponse.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Dto\\PaymentResponse\:\:__construct\(\) has parameter \$raw with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Dto/PaymentResponse.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Dto\\RefundRequest\:\:__construct\(\) has parameter \$extras with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Dto/RefundRequest.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Dto\\RefundRequest\:\:fromArray\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Dto/RefundRequest.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Dto\\RefundResponse\:\:__construct\(\) has parameter \$raw with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Dto/RefundResponse.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Dto\\StatusResponse\:\:__construct\(\) has parameter \$raw with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Dto/StatusResponse.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Dto\\TokenResponse\:\:__construct\(\) has parameter \$raw with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Dto/TokenResponse.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Dto\\WebhookPayload\:\:__construct\(\) has parameter \$raw with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Dto/WebhookPayload.php
+
+		-
+			message: '#^Class DevWizard\\Payify\\Facades\\Payify has PHPDoc tag @method for method fake\(\) parameter \#1 \$providers with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Facades/Payify.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$amount\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/WebhookController.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/WebhookController.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Http\\Controllers\\WebhookController\:\:log\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Http/Controllers/WebhookController.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Http\\Middleware\\LoggingMiddleware\:\:flattenHeaders\(\) has parameter \$headers with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Http/Middleware/LoggingMiddleware.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Http\\Middleware\\LoggingMiddleware\:\:flattenHeaders\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Http/Middleware/LoggingMiddleware.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Http\\Middleware\\SecretMaskingMiddleware\:\:maskHeaders\(\) has parameter \$headers with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Http/Middleware/SecretMaskingMiddleware.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Http\\Middleware\\SecretMaskingMiddleware\:\:maskHeaders\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Http/Middleware/SecretMaskingMiddleware.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Http\\Middleware\\SecretMaskingMiddleware\:\:maskPayload\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Http/Middleware/SecretMaskingMiddleware.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Http\\Middleware\\SecretMaskingMiddleware\:\:maskPayload\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Http/Middleware/SecretMaskingMiddleware.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Http\\PayifyHttpClient\:\:__construct\(\) has parameter \$config with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Http/PayifyHttpClient.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Http\\PayifyHttpClient\:\:delete\(\) has parameter \$headers with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Http/PayifyHttpClient.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Http\\PayifyHttpClient\:\:delete\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Http/PayifyHttpClient.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Http\\PayifyHttpClient\:\:get\(\) has parameter \$headers with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Http/PayifyHttpClient.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Http\\PayifyHttpClient\:\:get\(\) has parameter \$query with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Http/PayifyHttpClient.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Http\\PayifyHttpClient\:\:get\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Http/PayifyHttpClient.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Http\\PayifyHttpClient\:\:post\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Http/PayifyHttpClient.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Http\\PayifyHttpClient\:\:post\(\) has parameter \$headers with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Http/PayifyHttpClient.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Http\\PayifyHttpClient\:\:post\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Http/PayifyHttpClient.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Http\\PayifyHttpClient\:\:put\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Http/PayifyHttpClient.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Http\\PayifyHttpClient\:\:put\(\) has parameter \$headers with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Http/PayifyHttpClient.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Http\\PayifyHttpClient\:\:put\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Http/PayifyHttpClient.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Http\\PayifyHttpClient\:\:request\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Http/PayifyHttpClient.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Http\\PayifyHttpClient\:\:request\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Http/PayifyHttpClient.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Managers\\PayifyManager\:\:fake\(\) has parameter \$providers with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Managers/PayifyManager.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Managers\\PayifyManager\:\:providerConfig\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Managers/PayifyManager.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Managers\\PayifyManager\:\:resolveClassDriver\(\) has parameter \$config with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Managers/PayifyManager.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$amount\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Models/Transaction.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$provider_transaction_id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Models/Transaction.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$refunded_amount\.$#'
+			identifier: property.notFound
+			count: 3
+			path: src/Models/Transaction.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$response_payload\.$#'
+			identifier: property.notFound
+			count: 4
+			path: src/Models/Transaction.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 3
+			path: src/Models/Transaction.php
+
+		-
+			message: '#^Class DevWizard\\Payify\\Models\\Transaction uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Models/Transaction.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Models\\Transaction\:\:markCancelled\(\) has parameter \$raw with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Models/Transaction.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Models\\Transaction\:\:markFailed\(\) has parameter \$raw with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Models/Transaction.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Models\\Transaction\:\:markRefunded\(\) has parameter \$raw with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Models/Transaction.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Models\\Transaction\:\:markSucceeded\(\) has parameter \$raw with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Models/Transaction.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Models\\Transaction\:\:payable\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\MorphTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Models/Transaction.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Payify\:\:fake\(\) has parameter \$providers with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Payify.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Payify\:\:routes\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Payify.php
+
+		-
+			message: '#^Access to an undefined property DevWizard\\Payify\\Models\\Transaction\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Testing/PayifyFake.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Testing\\PayifyFake\:\:__construct\(\) has parameter \$cannedByProvider with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Testing/PayifyFake.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Testing\\PayifyFake\:\:cannedFor\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Testing/PayifyFake.php
+
+		-
+			message: '#^Method DevWizard\\Payify\\Testing\\PayifyFake\:\:install\(\) has parameter \$providers with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Testing/PayifyFake.php

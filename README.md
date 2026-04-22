@@ -1,69 +1,79 @@
-# Driver-based payment gateway manager for Laravel supporting multiple providers, webhooks, and dynamic integration.
+# Laravel Payify
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/devwizardhq/laravel-payify.svg?style=flat-square)](https://packagist.org/packages/devwizardhq/laravel-payify)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/devwizardhq/laravel-payify/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/devwizardhq/laravel-payify/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/devwizardhq/laravel-payify/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/devwizardhq/laravel-payify/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/devwizardhq/laravel-payify.svg?style=flat-square)](https://packagist.org/packages/devwizardhq/laravel-payify)
+Driver-based payment gateway manager for Laravel. Ships contracts, unified transaction lifecycle, Guzzle-backed HTTP client, webhook + callback pipeline, and a test harness. Phase 1 ships the core framework — concrete providers (bKash, Nagad, SSLCommerz, ShurjoPay, AmarPay, Upay, PayStation, Walletmix, Stripe) land in later releases.
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-payify.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-payify)
-
-## Installation
-
-You can install the package via composer:
+## Install
 
 ```bash
 composer require devwizardhq/laravel-payify
+php artisan payify:install
 ```
 
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="laravel-payify-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag="laravel-payify-config"
-```
-
-This is the contents of the published config file:
+## Quick start
 
 ```php
-return [
-];
+use DevWizard\Payify\Facades\Payify;
+
+$response = Payify::driver('bkash')
+    ->amount(250, 'BDT')
+    ->invoice('INV-2026-0001')
+    ->customer(name: 'Iqbal', phone: '01700000000')
+    ->callback('https://app.test/payment/return')
+    ->payable($order)
+    ->pay();
+
+return redirect($response->redirectUrl);
 ```
 
-## Usage
+Array shortcut:
+
+```php
+Payify::driver('bkash')->pay([
+    'amount' => 250, 'currency' => 'BDT',
+    'reference' => 'INV-2026-0001',
+    'callback' => route('payment.return'),
+]);
+```
+
+## Custom drivers
+
+```bash
+php artisan payify:make-driver Razorpay
+```
+
+Register the generated class in `config/payify.php` under `providers.razorpay`.
 
 ## Testing
 
-```bash
-composer test
+```php
+$fake = Payify::fake();
+Payify::driver('bkash')->amount(100)->invoice('INV-1')->pay();
+$fake->assertPaid(fn ($txn) => $txn->reference === 'INV-1');
 ```
 
-## Changelog
+## Commands
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+| Command | Purpose |
+|---|---|
+| `payify:install` | Publish config + migrations |
+| `payify:list` | List registered providers |
+| `payify:make-driver {Name}` | Scaffold a custom driver |
+| `payify:status {id}` | Refresh status from provider |
+| `payify:refund {id}` | Refund (full or partial) |
+| `payify:webhook:replay {id}` | Replay stored webhook payload |
+| `payify:cleanup` | Prune stale transactions |
 
-## Contributing
+## Configuration
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+See `config/payify.php`. Key env vars: `PAYIFY_DEFAULT`, `PAYIFY_MODE`, `PAYIFY_CURRENCY`, `PAYIFY_LOG`, `PAYIFY_WEBHOOK_QUEUE`.
 
-## Security Vulnerabilities
+## Testing the package
 
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
-
-## Credits
-
-- [IQBAL HASAN](https://github.com/iqbalhasandev)
-- [All Contributors](../../contributors)
+```bash
+composer test
+composer analyse
+```
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+MIT.
