@@ -27,6 +27,17 @@ it('processes a full refund via CLI', function () {
     expect($txn->fresh()->status)->toBe(TransactionStatus::Refunded);
 });
 
+it('fails when transaction is not in refundable state', function () {
+    $txn = Transaction::create([
+        'provider' => 'fake', 'reference' => 'INV-NRF', 'amount' => 100,
+        'currency' => 'BDT', 'status' => TransactionStatus::Failed,
+    ]);
+
+    $this->artisan('payify:refund', ['transaction_id' => $txn->id])
+        ->expectsOutputToContain('not in a refundable state')
+        ->assertFailed();
+});
+
 it('processes a partial refund', function () {
     $txn = Transaction::create([
         'provider' => 'fake', 'reference' => 'INV-REFP', 'amount' => 100,

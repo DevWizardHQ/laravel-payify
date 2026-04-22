@@ -8,6 +8,7 @@ use DevWizard\Payify\Dto\WebhookPayload;
 use DevWizard\Payify\Enums\TransactionStatus;
 use DevWizard\Payify\Events\PaymentInitiated;
 use DevWizard\Payify\Events\PaymentSucceeded;
+use DevWizard\Payify\Exceptions\UnsupportedOperationException;
 use DevWizard\Payify\Http\PayifyHttpClient;
 use DevWizard\Payify\Models\Transaction;
 use GuzzleHttp\Handler\MockHandler;
@@ -73,6 +74,16 @@ it('processes refund', function () {
     expect($refund->amount)->toBe(50.0);
     expect($refund->status)->toBe(TransactionStatus::Refunded);
 });
+
+it('rejects refund when transaction is not in refundable state', function () {
+    $driver = makeFakeDriver();
+    $txn = Transaction::create([
+        'provider' => 'fake', 'reference' => 'INV-NRF', 'amount' => 100,
+        'currency' => 'BDT', 'status' => TransactionStatus::Failed,
+    ]);
+
+    $driver->refund(new RefundRequest(transactionId: $txn->id, amount: 100));
+})->throws(UnsupportedOperationException::class);
 
 it('verifies webhooks unconditionally', function () {
     $driver = makeFakeDriver();

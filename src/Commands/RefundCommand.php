@@ -35,6 +35,12 @@ class RefundCommand extends Command
             return self::FAILURE;
         }
 
+        if (! $txn->canRefund()) {
+            $this->error("Transaction [{$txn->id}] is not in a refundable state (status: {$txn->status->value}).");
+
+            return self::FAILURE;
+        }
+
         $amount = $this->option('amount') !== null ? (float) $this->option('amount') : null;
 
         $response = $driver->refund(new RefundRequest(

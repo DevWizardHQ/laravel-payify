@@ -104,9 +104,9 @@ class Transaction extends Model
                 'response_payload' => $raw ?: $fresh->response_payload,
                 'refunded_at' => now(),
             ]);
-
-            $this->setRawAttributes($fresh->getAttributes(), true);
         });
+
+        $this->refresh();
     }
 
     public function refreshFromStatus(StatusResponse $status): void

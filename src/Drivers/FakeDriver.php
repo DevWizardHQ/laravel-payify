@@ -13,6 +13,7 @@ use DevWizard\Payify\Dto\StatusResponse;
 use DevWizard\Payify\Dto\WebhookPayload;
 use DevWizard\Payify\Enums\TransactionStatus;
 use DevWizard\Payify\Events\PaymentRefunded;
+use DevWizard\Payify\Exceptions\UnsupportedOperationException;
 use DevWizard\Payify\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -90,6 +91,13 @@ class FakeDriver extends AbstractDriver implements HandlesWebhook, SupportsHoste
     public function refund(RefundRequest $request): RefundResponse
     {
         $txn = Transaction::findOrFail($request->transactionId);
+
+        if (! $txn->canRefund()) {
+            throw new UnsupportedOperationException(
+                "Transaction [{$txn->id}] is not in a refundable state (status: {$txn->status->value})."
+            );
+        }
+
         $amount = $request->amount ?? (float) $txn->amount;
 
         $txn->markRefunded($amount);
