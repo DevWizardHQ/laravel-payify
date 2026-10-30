@@ -2,8 +2,8 @@
 
 namespace DevWizard\Payify\Http\Middleware;
 
+use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Middleware;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -37,7 +37,7 @@ class RetryMiddleware
             return true;
         }
 
-        if ($err instanceof RequestException && $err->hasResponse() && $err->getResponse()->getStatusCode() >= 500) {
+        if ($err instanceof BadResponseException && $err->getResponse()->getStatusCode() >= 500) {
             return true;
         }
 
